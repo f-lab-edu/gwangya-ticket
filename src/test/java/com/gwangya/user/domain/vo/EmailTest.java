@@ -19,7 +19,7 @@ class EmailTest {
 
     }
 
-    @DisplayName("회원 가입 시 이메일은 필수이다.")
+    @DisplayName("이메일 형식이 맞지 않을 경우 예외가 발생한다.")
     @ParameterizedTest
     @ValueSource(strings = {"emailtest.com", "email@testcom", "email//@test.com"})
     void user_email_should_be_formatted_correctly(String invalidEmail) {
