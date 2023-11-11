@@ -1,5 +1,6 @@
 package com.gwangya.user.domain.vo;
 
+import com.gwangya.user.repository.UserRepository;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
@@ -22,8 +23,9 @@ public class Email {
         this.value = email;
     }
 
-    public static Email of(final String email) {
+    public static Email of(final String email, final UserRepository userRepository) {
         validateEmail(email);
+        checkDuplicateEmail(email, userRepository);
         return new Email(email);
     }
 
@@ -35,6 +37,12 @@ public class Email {
         Matcher matcher = pattern.matcher(email);
         if (!matcher.matches()) {
             throw new IllegalArgumentException("이메일 형식이 올바르지 않습니다.");
+        }
+    }
+
+    private static void checkDuplicateEmail(final String email, final UserRepository userRepository) {
+        if (userRepository.existsUserByEmail(email)) {
+            throw new IllegalArgumentException("중복된 이메일 입니다.");
         }
     }
 
