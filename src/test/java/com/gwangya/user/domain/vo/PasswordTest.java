@@ -1,6 +1,6 @@
 package com.gwangya.user.domain.vo;
 
-import com.gwangya.user.infra.InMemoryPasswordEncoder;
+import com.gwangya.global.config.InMemoryPasswordEncoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;

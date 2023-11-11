@@ -1,4 +1,4 @@
-package com.gwangya.user.infra;
+package com.gwangya.global.config;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
