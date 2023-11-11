@@ -14,6 +14,14 @@ public class BaseEntity {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
+    protected BaseEntity() {
+    }
+
+    public BaseEntity(LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
