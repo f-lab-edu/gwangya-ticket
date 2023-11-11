@@ -1,4 +1,4 @@
-package com.gwangya.global.domain;
+package com.gwangya.global.base;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;

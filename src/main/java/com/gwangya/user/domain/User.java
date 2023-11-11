@@ -1,6 +1,6 @@
 package com.gwangya.user.domain;
 
-import com.gwangya.global.domain.BaseEntity;
+import com.gwangya.global.base.BaseEntity;
 import com.gwangya.user.domain.vo.Email;
 import com.gwangya.user.domain.vo.Password;
 import com.gwangya.user.shared.dto.UserCreateCommand;
