@@ -1,7 +1,7 @@
 package com.gwangya.user.controller;
 
-import com.gwangya.user.shared.dto.UserCreateCommand;
-import com.gwangya.user.shared.dto.UserDto;
+import com.gwangya.user.dto.UserCreateCommand;
+import com.gwangya.user.dto.UserDto;
 import com.gwangya.user.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

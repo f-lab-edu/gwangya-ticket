@@ -1,4 +1,4 @@
-package com.gwangya.user.shared.dto;
+package com.gwangya.user.dto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

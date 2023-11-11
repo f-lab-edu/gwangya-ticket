@@ -3,7 +3,7 @@ package com.gwangya.user.domain;
 import com.gwangya.global.base.BaseEntity;
 import com.gwangya.user.domain.vo.Email;
 import com.gwangya.user.domain.vo.Password;
-import com.gwangya.user.shared.dto.UserCreateCommand;
+import com.gwangya.user.dto.UserCreateCommand;
 import com.gwangya.user.repository.UserRepository;
 import jakarta.persistence.*;
 import org.springframework.security.crypto.password.PasswordEncoder;

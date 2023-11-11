@@ -3,8 +3,8 @@ package com.gwangya.user.service;
 import com.gwangya.global.util.ConvertUtil;
 import com.gwangya.user.domain.User;
 import com.gwangya.user.repository.UserRepository;
-import com.gwangya.user.shared.dto.UserCreateCommand;
-import com.gwangya.user.shared.dto.UserDto;
+import com.gwangya.user.dto.UserCreateCommand;
+import com.gwangya.user.dto.UserDto;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
