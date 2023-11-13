@@ -2,6 +2,7 @@ package com.gwangya.user.service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gwangya.global.util.ConvertUtil;
 import com.gwangya.user.domain.User;
@@ -19,6 +20,7 @@ public class UserService {
 
 	private final UserRepository userRepository;
 
+	@Transactional
 	public UserDto createUser(final UserCreateCommand userCreateCommand) {
 		User savedUser = userRepository.save(User.of(userCreateCommand, passwordEncoder, userRepository));
 		return ConvertUtil.convert(savedUser, UserDto.class);
