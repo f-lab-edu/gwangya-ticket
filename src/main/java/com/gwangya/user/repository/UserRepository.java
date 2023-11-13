@@ -4,7 +4,7 @@ import com.gwangya.user.domain.User;
 
 public interface UserRepository {
 
-    User save(User user);
+	User save(User user);
 
-    Boolean existsUserByEmail(String email);
+	boolean existsUserByEmail(String email);
 }
