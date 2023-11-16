@@ -1,6 +1,5 @@
 package com.gwangya.user.domain.vo;
 
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,20 +40,5 @@ public class Password {
 		if (!matcher.matches()) {
 			throw new IllegalArgumentException("비밀번호는 알파벳 대소문자 및 숫자, 특수문자를 포함하여 8~20자리여야 합니다.");
 		}
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
-		Password password = (Password)o;
-		return Objects.equals(getValue(), password.getValue());
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(getValue());
 	}
 }
