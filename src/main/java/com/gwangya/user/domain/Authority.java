@@ -1,4 +1,4 @@
-package com.gwangya.user.auth;
+package com.gwangya.user.domain;
 
 import org.springframework.security.core.GrantedAuthority;
 

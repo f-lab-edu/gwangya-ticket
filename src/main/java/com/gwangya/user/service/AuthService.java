@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.gwangya.user.auth.Authority;
+import com.gwangya.user.domain.Authority;
 import com.gwangya.user.domain.User;
 import com.gwangya.user.repository.UserRepository;
 
