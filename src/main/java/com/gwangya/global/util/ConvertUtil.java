@@ -5,6 +5,7 @@ import java.util.Objects;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,6 +18,7 @@ public final class ConvertUtil {
 	private static final ObjectMapper objectMapper = new ObjectMapper()
 		.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 		.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
+		.configure(JsonParser.Feature.IGNORE_UNDEFINED, true)
 		.registerModule(new JavaTimeModule());
 
 	public static <T, R> T convert(R from, Class<T> to) {
@@ -31,6 +33,13 @@ public final class ConvertUtil {
 			return null;
 		}
 		return objectMapper.readValue(jsonBody, to);
+	}
+
+	public static <T> String convert(T from) throws JsonProcessingException {
+		if (Objects.isNull(from)) {
+			return null;
+		}
+		return objectMapper.writeValueAsString(from);
 	}
 }
 
