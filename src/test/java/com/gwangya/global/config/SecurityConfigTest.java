@@ -1,4 +1,4 @@
-package com.gwangya.global.auth.config;
+package com.gwangya.global.config;
 
 import static org.assertj.core.api.Assertions.*;
 

@@ -1,4 +1,4 @@
-package com.gwangya.global.auth.exception;
+package com.gwangya.global.exception;
 
 public class InvalidLoginException extends RuntimeException {
 

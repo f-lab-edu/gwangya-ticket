@@ -4,8 +4,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.gwangya.global.auth.exception.InvalidLoginException;
 import com.gwangya.global.base.ExceptionResponse;
+import com.gwangya.global.exception.InvalidLoginException;
 
 import lombok.extern.log4j.Log4j2;
 
