@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.gwangya.user.domain.Authority;
 import com.gwangya.user.domain.User;
+import com.gwangya.user.domain.vo.Email;
 import com.gwangya.user.repository.UserRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -22,7 +23,7 @@ public class AuthService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
-		User user = userRepository.findByEmail(email)
+		User user = userRepository.findByEmail(Email.of(email))
 			.orElseThrow(() -> new EntityNotFoundException("존재하지 않는 유저입니다."));
 		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
 			Collections.singleton(Authority.USER));

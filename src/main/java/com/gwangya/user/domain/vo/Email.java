@@ -35,6 +35,11 @@ public class Email {
 		return new Email(email);
 	}
 
+	public static Email of(final String email) {
+		validateEmail(email);
+		return new Email(email);
+	}
+
 	private static void validateEmail(final String email) {
 		if (ObjectUtils.isEmpty(email)) {
 			throw new IllegalArgumentException("이메일은 필수입니다.");

@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.gwangya.user.domain.User;
+import com.gwangya.user.domain.vo.Email;
 
 public class InMemoryUserRepository implements UserRepository {
 
@@ -25,10 +26,10 @@ public class InMemoryUserRepository implements UserRepository {
 	}
 
 	@Override
-	public Optional<User> findByEmail(final String email) {
+	public Optional<User> findByEmail(final Email email) {
 		return users.values()
 			.stream()
-			.filter(user -> user.getEmail().equals(email))
+			.filter(user -> user.getEmail().equals(email.getValue()))
 			.findFirst();
 	}
 
