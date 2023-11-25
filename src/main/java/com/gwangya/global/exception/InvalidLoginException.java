@@ -1,6 +1,8 @@
 package com.gwangya.global.exception;
 
-public class InvalidLoginException extends RuntimeException {
+import org.springframework.security.core.AuthenticationException;
+
+public class InvalidLoginException extends AuthenticationException {
 
 	private final String message;
 
