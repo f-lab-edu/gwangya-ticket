@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class LoginDto {
 
-	private String sessionId;
+	private String accessToken;
+	private String refreshToken;
 }
