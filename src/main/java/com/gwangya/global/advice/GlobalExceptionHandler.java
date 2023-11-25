@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.gwangya.global.base.ExceptionResponse;
-import com.gwangya.global.exception.InvalidLoginException;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -13,7 +12,7 @@ import lombok.extern.log4j.Log4j2;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-	@ExceptionHandler({IllegalArgumentException.class, InvalidLoginException.class})
+	@ExceptionHandler({IllegalArgumentException.class})
 	public ResponseEntity<?> handleClientException(RuntimeException exception) {
 		log.info(exception.getMessage());
 		ExceptionResponse exceptionResponse = ExceptionResponse.builder()
