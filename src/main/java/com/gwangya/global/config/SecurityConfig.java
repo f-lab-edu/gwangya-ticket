@@ -4,15 +4,22 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
+import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
+import org.springframework.security.config.annotation.web.configurers.RequestCacheConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.gwangya.user.domain.Authority;
+import com.gwangya.global.advice.SecurityExceptionHandleEntryPoint;
+import com.gwangya.global.authentication.JwtAuthenticationProvider;
+import com.gwangya.global.filter.EmailPasswordAuthenticationFilter;
 import com.gwangya.user.service.AuthService;
 
 import lombok.RequiredArgsConstructor;
@@ -32,25 +39,31 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		return http
-			.csrf(Customizer.withDefaults())
-			.formLogin(formLoginConfigurer -> formLoginConfigurer.usernameParameter("email"))
+			.csrf(CsrfConfigurer::disable)
+			.formLogin(FormLoginConfigurer::disable)
+			.requestCache(RequestCacheConfigurer::disable)
 			.authenticationManager(authenticationManager())
+			.logout(LogoutConfigurer::disable)
+			.sessionManagement(
+				sessionConfigurer -> sessionConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+			.addFilterAt(new EmailPasswordAuthenticationFilter(authenticationManager(), authenticationEntryPoint()),
+				UsernamePasswordAuthenticationFilter.class)
 			.authorizeHttpRequests(
-				requestMatcher -> requestMatcher.requestMatchers(HttpMethod.POST, "/api/v1/user")
+				requestMatcher -> requestMatcher.requestMatchers(HttpMethod.POST, "/api/v1/user", "/api/v1/auth")
 					.permitAll()
-					.requestMatchers(HttpMethod.GET, "/api/v1/user/authority")
-					.hasAuthority(Authority.USER.name())
 					.anyRequest().authenticated())
 			.build();
 	}
 
 	@Bean
 	public ProviderManager authenticationManager() {
-		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-		authenticationProvider.setUserDetailsService(authService);
-		authenticationProvider.setPasswordEncoder(encoder());
-
+		JwtAuthenticationProvider authenticationProvider = new JwtAuthenticationProvider(authService, encoder());
 		return new ProviderManager(authenticationProvider);
+	}
+
+	@Bean
+	public AuthenticationEntryPoint authenticationEntryPoint() {
+		return new SecurityExceptionHandleEntryPoint();
 	}
 }
 
