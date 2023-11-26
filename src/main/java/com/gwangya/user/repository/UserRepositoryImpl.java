@@ -32,4 +32,9 @@ public class UserRepositoryImpl implements UserRepository {
 	public Optional<User> findByEmail(final Email email) {
 		return jpaRepository.findByEmail(email);
 	}
+
+	@Override
+	public Optional<User> findById(final Long userId) {
+		return jpaRepository.findById(userId);
+	}
 }

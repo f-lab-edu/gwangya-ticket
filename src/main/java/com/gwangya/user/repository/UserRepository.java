@@ -12,4 +12,6 @@ public interface UserRepository {
 	boolean existsUserByEmail(String email);
 
 	Optional<User> findByEmail(Email email);
+
+	Optional<User> findById(Long userId);
 }
