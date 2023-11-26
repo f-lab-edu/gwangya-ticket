@@ -35,8 +35,8 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 			.authorities(Collections.singleton(USER))
 			.email(user.getEmail())
 			.password(user.getPassword())
-			.accessToken(JwtUtil.generateToken(user.getEmail(), user.getId(), accessibleConcerts))
-			.refreshToken(createRefreshToken(user.getId()))
+			.accessToken(JwtUtil.generateAccessToken(user.getEmail(), user.getId(), accessibleConcerts))
+			.refreshToken(JwtUtil.generateRefreshToken(user.getEmail(), user.getId()))
 			.build();
 	}
 
@@ -49,10 +49,5 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 		if (!passwordEncoder.matches(rawPassword, encodedPassword)) {
 			throw new BadCredentialsException("비밀번호를 확인해주세요.");
 		}
-	}
-
-	public String createRefreshToken(final Long userId) {
-		// 리프레시 토큰 발급
-		return "refresh token";
 	}
 }

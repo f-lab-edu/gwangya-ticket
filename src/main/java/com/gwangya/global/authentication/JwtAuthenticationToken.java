@@ -1,6 +1,7 @@
 package com.gwangya.global.authentication;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -8,6 +9,8 @@ import org.springframework.security.core.GrantedAuthority;
 import lombok.Builder;
 
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {
+
+	private Long userId;
 
 	private String principal; // email
 
@@ -17,15 +20,24 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
 	private String refreshToken;
 
+	private List<Long> accessibleConcerts;
+
 	@Builder
 	public JwtAuthenticationToken(boolean authenticated, Collection<? extends GrantedAuthority> authorities,
-		String email, String password, String accessToken, String refreshToken) {
+		Long userId, String email, List<Long> accessibleConcerts, String password, String accessToken,
+		String refreshToken) {
 		super(authorities);
 		super.setAuthenticated(authenticated);
+		this.userId = userId;
 		this.principal = email;
 		this.credentials = password;
 		this.accessToken = accessToken;
 		this.refreshToken = refreshToken;
+		this.accessibleConcerts = accessibleConcerts;
+	}
+
+	public Long getUserId() {
+		return userId;
 	}
 
 	@Override
@@ -44,5 +56,9 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
 	public String getRefreshToken() {
 		return this.refreshToken;
+	}
+
+	public List<Long> getAccessibleConcerts() {
+		return accessibleConcerts;
 	}
 }
