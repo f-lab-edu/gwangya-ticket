@@ -33,4 +33,9 @@ public class InMemoryUserRepository implements UserRepository {
 			.findFirst();
 	}
 
+	@Override
+	public Optional<User> findById(Long userId) {
+		return Optional.ofNullable(users.get(userId));
+	}
+
 }

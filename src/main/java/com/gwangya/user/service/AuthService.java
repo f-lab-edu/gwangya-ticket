@@ -2,7 +2,6 @@ package com.gwangya.user.service;
 
 import java.util.List;
 
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.gwangya.user.domain.User;
@@ -18,8 +17,14 @@ public class AuthService {
 
 	private final UserRepository userRepository;
 
-	public User searchUserByEmail(final String email) throws UsernameNotFoundException {
+	public User searchUserByEmail(final String email) {
 		User user = userRepository.findByEmail(Email.of(email))
+			.orElseThrow(() -> new EntityNotFoundException("존재하지 않는 유저입니다."));
+		return user;
+	}
+
+	public User searchUserByUserId(final Long userId) {
+		User user = userRepository.findById(userId)
 			.orElseThrow(() -> new EntityNotFoundException("존재하지 않는 유저입니다."));
 		return user;
 	}
