@@ -15,11 +15,14 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.gwangya.global.advice.JwtAccessDeniedHandler;
 import com.gwangya.global.advice.SecurityExceptionHandleEntryPoint;
 import com.gwangya.global.authentication.JwtAuthenticationProvider;
 import com.gwangya.global.filter.EmailPasswordAuthenticationFilter;
+import com.gwangya.global.filter.JwtTokenFilter;
 import com.gwangya.user.service.AuthService;
 
 import lombok.RequiredArgsConstructor;
@@ -48,6 +51,8 @@ public class SecurityConfig {
 				sessionConfigurer -> sessionConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			.addFilterAt(new EmailPasswordAuthenticationFilter(authenticationManager(), authenticationEntryPoint()),
 				UsernamePasswordAuthenticationFilter.class)
+			.addFilterAt(new JwtTokenFilter(authService, accessDeniedHandler()),
+				UsernamePasswordAuthenticationFilter.class)
 			.authorizeHttpRequests(
 				requestMatcher -> requestMatcher.requestMatchers(HttpMethod.POST, "/api/v1/user", "/api/v1/auth")
 					.permitAll()
@@ -64,6 +69,11 @@ public class SecurityConfig {
 	@Bean
 	public AuthenticationEntryPoint authenticationEntryPoint() {
 		return new SecurityExceptionHandleEntryPoint();
+	}
+
+	@Bean
+	public AccessDeniedHandler accessDeniedHandler() {
+		return new JwtAccessDeniedHandler();
 	}
 }
 
