@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.gwangya.global.util.JwtUtil;
 import com.gwangya.user.domain.User;
 import com.gwangya.user.service.AuthService;
 
@@ -27,14 +28,14 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 	public JwtAuthenticationToken authenticate(Authentication authentication) throws AuthenticationException {
 		User user = authService.searchUserByEmail((String)authentication.getPrincipal());
 		validatePassword((String)authentication.getCredentials(), user.getPassword());
-		List<Long> accessibleConcert = authService.searchAccessibleConcertByUserId(user.getId());
+		List<Long> accessibleConcerts = authService.searchAccessibleConcertByUserId(user.getId());
 
 		return JwtAuthenticationToken.builder()
 			.authenticated(true)
 			.authorities(Collections.singleton(USER))
 			.email(user.getEmail())
 			.password(user.getPassword())
-			.accessToken(createAccessToken(user.getId(), accessibleConcert))
+			.accessToken(JwtUtil.generateToken(user.getEmail(), user.getId(), accessibleConcerts))
 			.refreshToken(createRefreshToken(user.getId()))
 			.build();
 	}
@@ -48,11 +49,6 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 		if (!passwordEncoder.matches(rawPassword, encodedPassword)) {
 			throw new BadCredentialsException("비밀번호를 확인해주세요.");
 		}
-	}
-
-	public String createAccessToken(final Long userId, final List<Long> accessibleConcerts) {
-		// 엑세스 토큰 발급
-		return "access token";
 	}
 
 	public String createRefreshToken(final Long userId) {
