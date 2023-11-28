@@ -34,7 +34,7 @@ public class InMemoryUserRepository implements UserRepository {
 	}
 
 	@Override
-	public boolean existsUserId(final Long userId) {
+	public boolean existsById(final Long userId) {
 		return users.entrySet()
 			.stream()
 			.anyMatch(user -> user.getKey().equals(userId));

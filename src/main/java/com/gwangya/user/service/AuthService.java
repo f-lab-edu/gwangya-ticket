@@ -32,6 +32,6 @@ public class AuthService {
 
 	@Transactional(readOnly = true)
 	public boolean existsByUserId(Long userId) {
-		return userRepository.existsUserId(userId);
+		return userRepository.existsById(userId);
 	}
 }

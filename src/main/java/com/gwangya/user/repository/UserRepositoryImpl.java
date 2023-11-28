@@ -34,7 +34,7 @@ public class UserRepositoryImpl implements UserRepository {
 	}
 
 	@Override
-	public boolean existsUserId(Long userId) {
-		return jpaRepository.existsUserId(userId);
+	public boolean existsById(Long userId) {
+		return jpaRepository.existsById(userId);
 	}
 }
