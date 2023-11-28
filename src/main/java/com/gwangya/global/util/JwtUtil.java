@@ -5,7 +5,6 @@ import static com.gwangya.user.domain.Authority.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import com.gwangya.global.authentication.JwtAuthenticationToken;
 import com.gwangya.global.exception.InvalidTokenException;
+import com.gwangya.user.dto.TokenInfoDTO;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -48,25 +48,22 @@ public final class JwtUtil {
 	public static String generateAccessToken(final String email, final Long userId,
 		final List<Long> accessibleConcerts) {
 		LocalDateTime now = LocalDateTime.now();
-		Map<String, Object> claims = new HashMap<>();
-		claims.put(USER_ID, userId);
-		claims.put(ACCESSIBLE_CONCERT_LIST, accessibleConcerts);
+		TokenInfoDTO claims = new TokenInfoDTO(userId, accessibleConcerts);
 
 		return createAccessToken(claims, email, now, now.plusMinutes(ACCESS_TOKEN_DURATION));
 	}
 
 	public static String generateRefreshToken(final String email, final Long userId) {
 		LocalDateTime now = LocalDateTime.now();
-		Map<String, Object> claims = new HashMap<>();
-		claims.put(USER_ID, userId);
+		TokenInfoDTO claims = new TokenInfoDTO(userId);
 
 		return createAccessToken(claims, email, now, now.plusDays(REFRESH_TOKEN_DURATION));
 	}
 
-	private static String createAccessToken(final Map<String, Object> claims, final String subject,
+	private static String createAccessToken(final TokenInfoDTO claims, final String subject,
 		final LocalDateTime issuedAt, final LocalDateTime expiration) {
 		return Jwts.builder()
-			.setClaims(claims)
+			.setClaims(ConvertUtil.convert(claims, Map.class))
 			.setSubject(subject)
 			.setIssuedAt(Timestamp.valueOf(issuedAt))
 			.setExpiration(Timestamp.valueOf(expiration))
