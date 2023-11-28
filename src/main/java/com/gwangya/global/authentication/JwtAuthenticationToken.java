@@ -54,4 +54,9 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 		final Long userId, final String email, final List<Long> accessibleConcerts) {
 		return new JwtAuthenticationToken(true, authorities, userId, email, accessibleConcerts, null, null, null);
 	}
+
+	@Override
+	public void eraseCredentials() {
+		super.eraseCredentials();
+	}
 }
