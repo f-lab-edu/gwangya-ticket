@@ -25,6 +25,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JwtTokenFilter extends OncePerRequestFilter {
 
+	private static final String AUTHORIZATION_PREFIX = "Bearer ";
+
 	private final AuthService authService;
 
 	private final AccessDeniedHandler accessDeniedHandler;
@@ -58,7 +60,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 		if (ObjectUtils.isEmpty(token)) {
 			throw new InvalidTokenException("토큰은 필수입니다.");
 		}
-		if (!token.startsWith("Bearer ")) {
+		if (!token.startsWith(AUTHORIZATION_PREFIX)) {
 			throw new InvalidTokenException("토큰이 유효하지 않습니다.");
 		}
 	}
