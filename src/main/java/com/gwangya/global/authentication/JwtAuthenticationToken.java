@@ -11,21 +11,17 @@ import lombok.Getter;
 @Getter
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
-	private Long userId;
+	private final Long userId;
 
-	private String principal; // email
+	private final String principal; // email
 
-	private String credentials; // password
+	private final String credentials; // password
 
-	private String accessToken;
+	private final String accessToken;
 
-	private String refreshToken;
+	private final String refreshToken;
 
-	private List<Long> accessibleConcerts;
-
-	protected JwtAuthenticationToken() {
-		super(null);
-	}
+	private final List<Long> accessibleConcerts;
 
 	private JwtAuthenticationToken(boolean authenticated, Collection<? extends GrantedAuthority> authorities,
 		Long userId, String email, List<Long> accessibleConcerts, String password, String accessToken,
