@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gwangya.global.util.ConvertUtil;
 import com.gwangya.user.domain.User;
 import com.gwangya.user.domain.vo.Email;
+import com.gwangya.user.dto.AuthDto;
 import com.gwangya.user.repository.UserRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -19,10 +21,10 @@ public class AuthService {
 	private final UserRepository userRepository;
 
 	@Transactional(readOnly = true)
-	public User searchUserByEmail(final String email) {
+	public AuthDto searchUserByEmail(final String email) {
 		User user = userRepository.findByEmail(Email.of(email))
 			.orElseThrow(() -> new EntityNotFoundException("존재하지 않는 유저입니다."));
-		return user;
+		return ConvertUtil.convert(user, AuthDto.class);
 	}
 
 	public List<Long> searchAccessibleConcertByUserId(final Long userId) {

@@ -12,7 +12,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.gwangya.global.util.JwtUtil;
-import com.gwangya.user.domain.User;
+import com.gwangya.user.dto.AuthDto;
 import com.gwangya.user.service.AuthService;
 
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 
 	@Override
 	public JwtAuthenticationToken authenticate(Authentication authentication) throws AuthenticationException {
-		User user = authService.searchUserByEmail((String)authentication.getPrincipal());
+		AuthDto user = authService.searchUserByEmail((String)authentication.getPrincipal());
 		validatePassword((String)authentication.getCredentials(), user.getPassword());
 		List<Long> accessibleConcerts = authService.searchAccessibleConcertByUserId(user.getId());
 
