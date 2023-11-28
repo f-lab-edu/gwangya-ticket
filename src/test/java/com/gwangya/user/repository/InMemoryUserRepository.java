@@ -34,8 +34,10 @@ public class InMemoryUserRepository implements UserRepository {
 	}
 
 	@Override
-	public Optional<User> findById(Long userId) {
-		return Optional.ofNullable(users.get(userId));
+	public boolean existsUserId(final Long userId) {
+		return users.entrySet()
+			.stream()
+			.anyMatch(user -> user.getKey().equals(userId));
 	}
 
 }

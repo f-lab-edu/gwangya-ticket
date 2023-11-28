@@ -25,15 +25,13 @@ public class AuthService {
 		return user;
 	}
 
-	@Transactional(readOnly = true)
-	public User searchUserByUserId(final Long userId) {
-		User user = userRepository.findById(userId)
-			.orElseThrow(() -> new EntityNotFoundException("존재하지 않는 유저입니다."));
-		return user;
-	}
-
 	public List<Long> searchAccessibleConcertByUserId(final Long userId) {
 		// 접근 가능한 공연 예매 목록 조회
 		return List.of(1L, 2L, 3L);
+	}
+
+	@Transactional(readOnly = true)
+	public boolean existsByUserId(Long userId) {
+		return userRepository.existsUserId(userId);
 	}
 }

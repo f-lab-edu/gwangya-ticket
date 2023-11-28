@@ -13,9 +13,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.gwangya.global.authentication.JwtAuthenticationToken;
 import com.gwangya.global.exception.InvalidTokenException;
 import com.gwangya.global.util.JwtUtil;
-import com.gwangya.user.domain.User;
 import com.gwangya.user.service.AuthService;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -42,10 +42,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
 			JwtAuthenticationToken authToken = JwtUtil.parse(token);
 
-			User user = authService.searchUserByUserId(authToken.getUserId());
+			validateUser(authToken.getUserId());
 
 			request.setAttribute(ACCESSIBLE_CONCERT_LIST, authToken.getAccessibleConcerts());
-			request.setAttribute(USER_ID, user.getId());
+			request.setAttribute(USER_ID, authToken.getUserId());
 
 			SecurityContextHolder.getContext().setAuthentication(authToken);
 
@@ -56,12 +56,18 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 		}
 	}
 
-	private static void validateAccessToken(final String token) {
+	private void validateAccessToken(final String token) {
 		if (ObjectUtils.isEmpty(token)) {
 			throw new InvalidTokenException("토큰은 필수입니다.");
 		}
 		if (!token.startsWith(AUTHORIZATION_PREFIX)) {
 			throw new InvalidTokenException("토큰이 유효하지 않습니다.");
+		}
+	}
+
+	private void validateUser(final Long userId) {
+		if (!authService.existsByUserId(userId)) {
+			throw new EntityNotFoundException("존재하지 않는 유저입니다.");
 		}
 	}
 }
