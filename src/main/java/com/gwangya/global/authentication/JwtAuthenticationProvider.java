@@ -30,14 +30,10 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 		validatePassword((String)authentication.getCredentials(), user.getPassword());
 		List<Long> accessibleConcerts = authService.searchAccessibleConcertByUserId(user.getId());
 
-		return JwtAuthenticationToken.builder()
-			.authenticated(true)
-			.authorities(Collections.singleton(USER))
-			.email(user.getEmail())
-			.password(user.getPassword())
-			.accessToken(JwtUtil.generateAccessToken(user.getEmail(), user.getId(), accessibleConcerts))
-			.refreshToken(JwtUtil.generateRefreshToken(user.getEmail(), user.getId()))
-			.build();
+		return JwtAuthenticationToken.authenticated(Collections.singleton(USER), user.getId(), user.getEmail(),
+			accessibleConcerts, user.getPassword(),
+			JwtUtil.generateAccessToken(user.getEmail(), user.getId(), accessibleConcerts),
+			JwtUtil.generateRefreshToken(user.getEmail(), user.getId()));
 	}
 
 	@Override

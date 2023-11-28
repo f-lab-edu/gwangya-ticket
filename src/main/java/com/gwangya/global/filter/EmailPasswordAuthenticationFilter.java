@@ -70,11 +70,7 @@ public class EmailPasswordAuthenticationFilter extends AbstractAuthenticationPro
 			String password = loginRequest.getPassword();
 			validateLoginRequest(email, password);
 
-			JwtAuthenticationToken authRequest = JwtAuthenticationToken.builder()
-				.authenticated(false)
-				.email(email)
-				.password(password)
-				.build();
+			JwtAuthenticationToken authRequest = JwtAuthenticationToken.unauthenticated(email, password);
 
 			return super.getAuthenticationManager().authenticate(authRequest);
 

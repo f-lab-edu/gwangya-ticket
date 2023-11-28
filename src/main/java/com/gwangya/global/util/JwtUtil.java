@@ -76,13 +76,9 @@ public final class JwtUtil {
 		Claims claims = extractAllClaims(token);
 		validateToken(claims);
 
-		return JwtAuthenticationToken.builder()
-			.authenticated(true)
-			.authorities(Collections.singleton(USER))
-			.userId(claims.get(USER_ID, Long.class))
-			.email(claims.getSubject())
-			.accessibleConcerts(claims.get(ACCESSIBLE_CONCERT_LIST, List.class))
-			.build();
+		return JwtAuthenticationToken.of(Collections.singleton(USER), claims.get(USER_ID, Long.class),
+			claims.getSubject(),
+			claims.get(ACCESSIBLE_CONCERT_LIST, List.class));
 	}
 
 	private static Claims extractAllClaims(final String token) {

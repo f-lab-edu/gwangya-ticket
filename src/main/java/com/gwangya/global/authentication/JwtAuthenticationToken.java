@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
-import lombok.Builder;
 import lombok.Getter;
 
 @Getter
@@ -24,8 +23,11 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
 	private List<Long> accessibleConcerts;
 
-	@Builder
-	public JwtAuthenticationToken(boolean authenticated, Collection<? extends GrantedAuthority> authorities,
+	protected JwtAuthenticationToken() {
+		super(null);
+	}
+
+	private JwtAuthenticationToken(boolean authenticated, Collection<? extends GrantedAuthority> authorities,
 		Long userId, String email, List<Long> accessibleConcerts, String password, String accessToken,
 		String refreshToken) {
 		super(authorities);
@@ -36,5 +38,24 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 		this.accessToken = accessToken;
 		this.refreshToken = refreshToken;
 		this.accessibleConcerts = accessibleConcerts;
+	}
+
+	public static JwtAuthenticationToken authenticated(
+		final Collection<? extends GrantedAuthority> authorities,
+		final Long userId, final String email, final List<Long> accessibleConcerts, final String password,
+		final String accessToken,
+		final String refreshToken) {
+
+		return new JwtAuthenticationToken(true, authorities, userId, email, accessibleConcerts, password, accessToken,
+			refreshToken);
+	}
+
+	public static JwtAuthenticationToken unauthenticated(final String email, final String password) {
+		return new JwtAuthenticationToken(false, null, null, email, null, password, null, null);
+	}
+
+	public static JwtAuthenticationToken of(final Collection<? extends GrantedAuthority> authorities,
+		final Long userId, final String email, final List<Long> accessibleConcerts) {
+		return new JwtAuthenticationToken(true, authorities, userId, email, accessibleConcerts, null, null, null);
 	}
 }
