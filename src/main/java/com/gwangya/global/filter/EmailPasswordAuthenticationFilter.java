@@ -58,7 +58,7 @@ public class EmailPasswordAuthenticationFilter extends AbstractAuthenticationPro
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws
 		AuthenticationException {
 
-		if (ObjectUtils.isEmpty(request.getContentType()) || !request.getContentType().equals(CONTENT_TYPE)) {
+		if (!CONTENT_TYPE.equals(request.getContentType())) {
 			throw new AuthenticationServiceException("잘못된 로그인 요청 형식입니다.");
 		}
 
