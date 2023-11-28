@@ -2,6 +2,8 @@ package com.gwangya.global.filter;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,6 +35,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 public class EmailPasswordAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+
+	private static final String EMAIL_REGEX = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+	private static final Pattern pattern = Pattern.compile(EMAIL_REGEX);
 
 	private SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder
 		.getContextHolderStrategy();
@@ -81,6 +86,10 @@ public class EmailPasswordAuthenticationFilter extends AbstractAuthenticationPro
 	private void validateLoginRequest(final String email, final String password) {
 		if (ObjectUtils.isEmpty(email) || ObjectUtils.isEmpty(password)) {
 			throw new IllegalArgumentException("이메일과 비밀번호를 입력해주세요.");
+		}
+		Matcher matcher = pattern.matcher(email);
+		if (!matcher.matches()) {
+			throw new IllegalArgumentException("이메일 형식이 올바르지 않습니다.");
 		}
 	}
 
