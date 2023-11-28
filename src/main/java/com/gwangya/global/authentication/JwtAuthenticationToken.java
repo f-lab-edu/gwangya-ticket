@@ -7,7 +7,9 @@ import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
 	private Long userId;
@@ -34,31 +36,5 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 		this.accessToken = accessToken;
 		this.refreshToken = refreshToken;
 		this.accessibleConcerts = accessibleConcerts;
-	}
-
-	public Long getUserId() {
-		return userId;
-	}
-
-	@Override
-	public Object getCredentials() {
-		return this.credentials;
-	}
-
-	@Override
-	public Object getPrincipal() {
-		return this.principal;
-	}
-
-	public String getAccessToken() {
-		return this.accessToken;
-	}
-
-	public String getRefreshToken() {
-		return this.refreshToken;
-	}
-
-	public List<Long> getAccessibleConcerts() {
-		return accessibleConcerts;
 	}
 }
