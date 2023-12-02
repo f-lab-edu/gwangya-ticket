@@ -1,8 +1,11 @@
 package com.gwangya.user.repository;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Repository;
 
 import com.gwangya.user.domain.User;
+import com.gwangya.user.domain.vo.Email;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -23,5 +26,15 @@ public class UserRepositoryImpl implements UserRepository {
 	@Override
 	public boolean existsUserByEmail(final String email) {
 		return jpaRepository.existsUserByEmail(email);
+	}
+
+	@Override
+	public Optional<User> findByEmail(final Email email) {
+		return jpaRepository.findByEmail(email);
+	}
+
+	@Override
+	public boolean existsById(Long userId) {
+		return jpaRepository.existsById(userId);
 	}
 }
