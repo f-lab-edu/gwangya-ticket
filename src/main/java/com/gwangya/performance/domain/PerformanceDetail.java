@@ -1,9 +1,13 @@
 package com.gwangya.performance.domain;
 
+import java.time.LocalDateTime;
+
 import com.gwangya.global.base.BaseEntity;
+import com.gwangya.performance.domain.vo.TicketLimitCount;
 import com.gwangya.purchase.domain.PurchaseType;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -29,4 +33,13 @@ public class PerformanceDetail extends BaseEntity {
 	@Column(name = "purchase_type")
 	@Enumerated(EnumType.STRING)
 	private PurchaseType purchaseType;
+
+	@Embedded
+	private TicketLimitCount limitCount;
+
+	@Column(name = "ticketing_start_datetime")
+	private LocalDateTime ticketingStartTime;
+
+	@Column(name = "ticketing_close_datetime")
+	private LocalDateTime ticketingCloseTime;
 }
