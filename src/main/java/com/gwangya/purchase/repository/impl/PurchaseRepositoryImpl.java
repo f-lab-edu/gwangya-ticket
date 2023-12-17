@@ -12,7 +12,6 @@ import com.gwangya.performance.domain.PerformanceDetail;
 import com.gwangya.purchase.domain.PurchaseInfo;
 import com.gwangya.purchase.repository.PurchaseJpaRepository;
 import com.gwangya.purchase.repository.PurchaseRepository;
-import com.gwangya.user.domain.User;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -34,11 +33,11 @@ public class PurchaseRepositoryImpl implements PurchaseRepository {
 	}
 
 	@Override
-	public long countPurchasedSeatByPerformanceDetailAndUser(PerformanceDetail detail, User requestUser) {
+	public long countPurchasedSeatByPerformanceDetailAndUserId(PerformanceDetail detail, Long userId) {
 		return jpaQueryFactory.select(purchaseSeat.count())
 			.from(purchaseSeat)
 			.where(
-				userEq(requestUser),
+				userIdEq(userId),
 				performanceDetailEq(detail)
 			).join(purchaseInfo).on(purchaseSeat.purchaseInfo.eq(purchaseInfo))
 			.join(performanceDetail).on(purchaseInfo.performanceDetail.eq(performanceDetail))
@@ -50,7 +49,7 @@ public class PurchaseRepositoryImpl implements PurchaseRepository {
 		return ObjectUtils.isEmpty(detail) ? null : purchaseSeat.purchaseInfo.performanceDetail.eq(detail);
 	}
 
-	private BooleanExpression userEq(final User user) {
-		return ObjectUtils.isEmpty(user) ? null : purchaseSeat.purchaseInfo.user.eq(user);
+	private BooleanExpression userIdEq(final Long userId) {
+		return ObjectUtils.isEmpty(userId) ? null : purchaseSeat.purchaseInfo.user.id.eq(userId);
 	}
 }

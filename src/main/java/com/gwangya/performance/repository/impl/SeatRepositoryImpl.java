@@ -9,7 +9,6 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.ObjectUtils;
 
-import com.gwangya.performance.domain.PerformanceDetail;
 import com.gwangya.performance.domain.Seat;
 import com.gwangya.performance.repository.SeatJpaRepository;
 import com.gwangya.performance.repository.SeatRepository;
@@ -29,10 +28,10 @@ public class SeatRepositoryImpl implements SeatRepository {
 	}
 
 	@Override
-	public List<Seat> findRemainingAllByPerformanceDetail(PerformanceDetail detail) {
+	public List<Seat> findRemainingAllByPerformanceDetailId(Long detailId) {
 		return jpaQueryFactory.selectFrom(seat)
 			.where(
-				performanceDetailEq(detail),
+				performanceDetailIdEq(detailId),
 				purchaseSeat.isNull()
 			)
 			.join(seat.performanceDetail, performanceDetail).fetchJoin()
@@ -40,7 +39,7 @@ public class SeatRepositoryImpl implements SeatRepository {
 			.fetch();
 	}
 
-	private BooleanExpression performanceDetailEq(final PerformanceDetail detail) {
-		return ObjectUtils.isEmpty(detail) ? null : seat.performanceDetail.eq(detail);
+	private BooleanExpression performanceDetailIdEq(final Long detailId) {
+		return ObjectUtils.isEmpty(detailId) ? null : seat.performanceDetail.id.eq(detailId);
 	}
 }
