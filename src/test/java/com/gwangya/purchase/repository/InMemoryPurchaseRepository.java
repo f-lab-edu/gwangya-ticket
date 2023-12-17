@@ -8,7 +8,6 @@ import org.springframework.util.ObjectUtils;
 import com.gwangya.performance.domain.PerformanceDetail;
 import com.gwangya.purchase.domain.PurchaseInfo;
 import com.gwangya.purchase.domain.PurchaseSeat;
-import com.gwangya.user.domain.User;
 
 public class InMemoryPurchaseRepository implements PurchaseRepository {
 
@@ -29,10 +28,10 @@ public class InMemoryPurchaseRepository implements PurchaseRepository {
 	}
 
 	@Override
-	public long countPurchasedSeatByPerformanceDetailAndUser(PerformanceDetail performanceDetail, User user) {
+	public long countPurchasedSeatByPerformanceDetailAndUserId(PerformanceDetail performanceDetail, Long userId) {
 		return seats.values().stream()
 			.filter(seat -> seat.getPurchaseInfo().getPerformanceDetail().equals(performanceDetail)
-				&& seat.getPurchaseInfo().getUser().equals(user))
+				&& seat.getPurchaseInfo().getUser().getId().equals(userId))
 			.count();
 	}
 }

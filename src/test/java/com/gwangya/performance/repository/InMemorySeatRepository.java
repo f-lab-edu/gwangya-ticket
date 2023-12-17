@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.gwangya.performance.domain.PerformanceDetail;
 import com.gwangya.performance.domain.Seat;
 
 public class InMemorySeatRepository implements SeatRepository {
@@ -18,9 +17,9 @@ public class InMemorySeatRepository implements SeatRepository {
 	}
 
 	@Override
-	public List<Seat> findRemainingAllByPerformanceDetail(PerformanceDetail performanceDetail) {
+	public List<Seat> findRemainingAllByPerformanceDetailId(Long performanceDetailId) {
 		return seats.values().stream()
-			.filter(seat -> seat.getPerformanceDetail().equals(performanceDetail))
+			.filter(seat -> seat.getPerformanceDetail().getId().equals(performanceDetailId))
 			.collect(Collectors.toUnmodifiableList());
 	}
 }
