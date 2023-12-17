@@ -1,5 +1,7 @@
 package com.gwangya.global.util;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import org.springframework.stereotype.Component;
@@ -26,6 +28,17 @@ public final class ConvertUtil {
 			return null;
 		}
 		return objectMapper.convertValue(from, to);
+	}
+
+	public static <T, R> List<T> convertList(List<R> from, Class<T> to) {
+		List<T> result = new ArrayList<>();
+		if (from.isEmpty()) {
+			return result;
+		}
+		for (R r : from) {
+			result.add(objectMapper.convertValue(r, to));
+		}
+		return result;
 	}
 
 	public static <T> T convert(String jsonBody, Class<T> to) throws JsonProcessingException {
