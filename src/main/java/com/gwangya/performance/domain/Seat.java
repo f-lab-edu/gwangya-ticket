@@ -1,5 +1,6 @@
 package com.gwangya.performance.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gwangya.global.base.BaseEntity;
 
 import jakarta.persistence.Column;
@@ -11,7 +12,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Entity
 @Table(name = "SEAT")
 public class Seat extends BaseEntity {
@@ -20,9 +28,10 @@ public class Seat extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "performance_detail_id")
-	private PerformanceDetail detail;
+	private PerformanceDetail performanceDetail;
 
 	@Column(name = "class")
 	private String seatClass;
