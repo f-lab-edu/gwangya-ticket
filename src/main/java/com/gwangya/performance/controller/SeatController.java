@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gwangya.performance.dto.SeatDto;
-import com.gwangya.performance.service.SeatService;
+import com.gwangya.performance.facade.SeatFacade;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,11 +17,11 @@ import lombok.RequiredArgsConstructor;
 @RestController
 public class SeatController {
 
-	private final SeatService seatService;
+	private final SeatFacade seatFacade;
 
 	@GetMapping("/api/v1/performance/{performanceId}/{performanceDetailId}/seat")
 	public ResponseEntity<List<SeatDto>> searchAllRemainingSeat(@PathVariable Long performanceId,
 		@PathVariable Long performanceDetailId, @RequestAttribute(name = "userId") Long userId) {
-		return ResponseEntity.ok(seatService.searchAllRemainingSeats(performanceDetailId, userId));
+		return ResponseEntity.ok(seatFacade.searchAllRemainingSeats(performanceDetailId, userId));
 	}
 }
