@@ -6,7 +6,6 @@ import com.gwangya.global.base.BaseEntity;
 import com.gwangya.performance.exception.UnavailablePurchaseException;
 import com.gwangya.purchase.domain.PurchaseType;
 import com.gwangya.purchase.repository.PurchaseRepository;
-import com.gwangya.user.domain.User;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -67,8 +66,8 @@ public class PerformanceDetail extends BaseEntity {
 		}
 	}
 
-	public void checkTicketLimit(final PurchaseRepository purchaseRepository, final User user) {
-		long purchasedCount = purchaseRepository.countPurchasedSeatByPerformanceDetailAndUser(this, user);
+	public void checkTicketLimit(final PurchaseRepository purchaseRepository, final Long userId) {
+		long purchasedCount = purchaseRepository.countPurchasedSeatByPerformanceDetailAndUserId(this, userId);
 		if (purchasedCount >= limitCount) {
 			throw new UnavailablePurchaseException("예매 가능 매수를 초과했습니다.");
 		}
