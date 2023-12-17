@@ -17,7 +17,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "PERFORMANCE_DETAIL")
 public class PerformanceDetail extends BaseEntity {
@@ -42,4 +47,16 @@ public class PerformanceDetail extends BaseEntity {
 
 	@Column(name = "ticketing_close_datetime")
 	private LocalDateTime ticketingCloseTime;
+
+	public PerformanceDetail(Long id, Performance performance, PurchaseType purchaseType, Integer limitCount,
+		LocalDateTime ticketingStartTime, LocalDateTime ticketingCloseTime, LocalDateTime createdAt,
+		LocalDateTime updatedAt) {
+		super(createdAt, updatedAt);
+		this.id = id;
+		this.performance = performance;
+		this.purchaseType = purchaseType;
+		this.limitCount = limitCount;
+		this.ticketingStartTime = ticketingStartTime;
+		this.ticketingCloseTime = ticketingCloseTime;
+	}
 }
