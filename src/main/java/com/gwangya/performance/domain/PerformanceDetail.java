@@ -3,7 +3,10 @@ package com.gwangya.performance.domain;
 import java.time.LocalDateTime;
 
 import com.gwangya.global.base.BaseEntity;
+import com.gwangya.performance.exception.UnavailablePurchaseException;
 import com.gwangya.purchase.domain.PurchaseType;
+import com.gwangya.purchase.repository.PurchaseRepository;
+import com.gwangya.user.domain.User;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -56,5 +59,18 @@ public class PerformanceDetail extends BaseEntity {
 		this.limitCount = limitCount;
 		this.ticketingStartTime = ticketingStartTime;
 		this.ticketingCloseTime = ticketingCloseTime;
+	}
+
+	public void checkPurchasePeriod(final LocalDateTime now) {
+		if (now.isBefore(ticketingStartTime) || now.isAfter(ticketingCloseTime)) {
+			throw new UnavailablePurchaseException("예매 가능 기간이 아닙니다.");
+		}
+	}
+
+	public void checkTicketLimit(final PurchaseRepository purchaseRepository, final User user) {
+		long purchasedCount = purchaseRepository.countPurchasedSeatByPerformanceDetailAndUser(this, user);
+		if (purchasedCount >= limitCount) {
+			throw new UnavailablePurchaseException("예매 가능 매수를 초과했습니다.");
+		}
 	}
 }

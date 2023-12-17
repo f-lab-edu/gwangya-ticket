@@ -40,4 +40,14 @@ public class InMemoryUserRepository implements UserRepository {
 			.anyMatch(user -> user.getKey().equals(userId));
 	}
 
+	@Override
+	public Optional<User> findById(Long userId) {
+		Optional<Map.Entry<Long, User>> result = users.entrySet()
+			.stream()
+			.filter(user -> user.getKey().equals(userId))
+			.findFirst();
+
+		return Optional.ofNullable(result.get().getValue());
+	}
+
 }
