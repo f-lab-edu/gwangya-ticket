@@ -40,7 +40,7 @@ public class PerformanceDetail extends BaseEntity {
 	private PurchaseType purchaseType;
 
 	@Column(name = "ticket_limit_count")
-	private Integer limitCount;
+	private int limitCount;
 
 	@Column(name = "ticketing_start_datetime")
 	private LocalDateTime ticketingStartTime;
@@ -48,7 +48,7 @@ public class PerformanceDetail extends BaseEntity {
 	@Column(name = "ticketing_close_datetime")
 	private LocalDateTime ticketingCloseTime;
 
-	public PerformanceDetail(Long id, Performance performance, PurchaseType purchaseType, Integer limitCount,
+	public PerformanceDetail(Long id, Performance performance, PurchaseType purchaseType, int limitCount,
 		LocalDateTime ticketingStartTime, LocalDateTime ticketingCloseTime, LocalDateTime createdAt,
 		LocalDateTime updatedAt) {
 		super(createdAt, updatedAt);

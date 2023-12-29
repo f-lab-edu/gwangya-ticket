@@ -46,5 +46,5 @@ public class Seat extends BaseEntity {
 	private String number;
 
 	@Column(name = "cost")
-	private Integer cost;
+	private int cost;
 }

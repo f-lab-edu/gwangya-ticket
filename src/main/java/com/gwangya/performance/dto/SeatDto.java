@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SeatDto {
 
-	private Long id;
+	private long id;
 
 	private String seatClass;
 
@@ -20,5 +20,5 @@ public class SeatDto {
 
 	private String number;
 
-	private Integer cost;
+	private int cost;
 }
