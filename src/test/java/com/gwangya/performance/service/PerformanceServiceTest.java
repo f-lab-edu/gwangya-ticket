@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import com.gwangya.global.exception.NoExistEntityException;
+import com.gwangya.global.exception.EntityNotFoundException;
 import com.gwangya.performance.domain.Performance;
 import com.gwangya.performance.domain.PerformanceDetail;
 import com.gwangya.performance.domain.Seat;
@@ -77,7 +77,7 @@ class PerformanceServiceTest {
 		// when & then
 		assertThatThrownBy(
 			() -> performanceService.searchPurchasablePerformanceDetailById(notExistPerformanceDetailId, user.getId()))
-			.isInstanceOf(NoExistEntityException.class)
+			.isInstanceOf(EntityNotFoundException.class)
 			.hasMessageContaining("존재하지 않는 공연입니다.");
 	}
 

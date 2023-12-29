@@ -4,7 +4,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gwangya.global.exception.NoExistEntityException;
+import com.gwangya.global.exception.EntityNotFoundException;
 import com.gwangya.global.util.ConvertUtil;
 import com.gwangya.user.domain.User;
 import com.gwangya.user.dto.UserCreateCommand;
@@ -30,7 +30,7 @@ public class UserService {
 	@Transactional(readOnly = true)
 	public UserDto searchUserById(final Long userId) {
 		User user = userRepository.findById(userId)
-			.orElseThrow(() -> new NoExistEntityException("존재하지 않는 유저입니다."));
+			.orElseThrow(() -> new EntityNotFoundException("존재하지 않는 유저입니다.", User.class, userId));
 		return ConvertUtil.convert(user, UserDto.class);
 	}
 }
