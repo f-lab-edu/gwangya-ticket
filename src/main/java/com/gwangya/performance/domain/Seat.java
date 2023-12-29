@@ -1,6 +1,5 @@
 package com.gwangya.performance.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gwangya.global.base.BaseEntity;
 
 import jakarta.persistence.Column;
@@ -28,7 +27,6 @@ public class Seat extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "performance_detail_id")
 	private PerformanceDetail performanceDetail;
