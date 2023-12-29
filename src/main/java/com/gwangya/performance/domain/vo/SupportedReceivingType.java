@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SupportedReceivingType {
 
-	@Column(name = "receiving_type")
+	@Column(name = "receiving_type", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private ReceivingType type;
 

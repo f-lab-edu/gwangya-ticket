@@ -31,18 +31,18 @@ public class Seat extends BaseEntity {
 	@JoinColumn(name = "performance_detail_id")
 	private PerformanceDetail performanceDetail;
 
-	@Column(name = "class")
+	@Column(name = "class", nullable = false)
 	private String seatClass;
 
-	@Column(name = "floor")
+	@Column(name = "floor", nullable = false)
 	private String floor;
 
-	@Column(name = "zone")
+	@Column(name = "zone", nullable = false)
 	private String zone;
 
-	@Column(name = "seat_number")
+	@Column(name = "seat_number", nullable = false)
 	private String number;
 
-	@Column(name = "cost")
+	@Column(name = "cost", nullable = false)
 	private int cost;
 }

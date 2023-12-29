@@ -35,17 +35,17 @@ public class PerformanceDetail extends BaseEntity {
 	@JoinColumn(name = "performance_id")
 	private Performance performance;
 
-	@Column(name = "purchase_type")
+	@Column(name = "purchase_type", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private PurchaseType purchaseType;
 
-	@Column(name = "ticket_limit_count")
+	@Column(name = "ticket_limit_count", nullable = false)
 	private int limitCount;
 
-	@Column(name = "ticketing_start_datetime")
+	@Column(name = "ticketing_start_datetime", nullable = false)
 	private LocalDateTime ticketingStartTime;
 
-	@Column(name = "ticketing_close_datetime")
+	@Column(name = "ticketing_close_datetime", nullable = false)
 	private LocalDateTime ticketingCloseTime;
 
 	public PerformanceDetail(Long id, Performance performance, PurchaseType purchaseType, int limitCount,

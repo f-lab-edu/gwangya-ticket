@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class PurchaseSerialNumber {
 
-	@Column(name = "purchase_serial_number")
+	@Column(name = "purchase_serial_number", nullable = false)
 	private String number;
 
 	public static PurchaseSerialNumber of() {

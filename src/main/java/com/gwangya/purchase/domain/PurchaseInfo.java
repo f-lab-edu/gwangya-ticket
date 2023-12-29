@@ -48,7 +48,7 @@ public class PurchaseInfo extends BaseEntity {
 	@OneToMany(mappedBy = "purchaseInfo", cascade = CascadeType.PERSIST)
 	private List<PurchaseSeat> purchaseSeats = new ArrayList<>();
 
-	@Column(name = "receiving_type")
+	@Column(name = "receiving_type", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private ReceivingType receivingType;
 

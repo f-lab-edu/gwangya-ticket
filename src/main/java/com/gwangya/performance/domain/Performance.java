@@ -30,22 +30,22 @@ public class Performance extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "title")
+	@Column(name = "title", nullable = false)
 	private String title;
 
-	@Column(name = "genre")
+	@Column(name = "genre", nullable = false)
 	private String genre;
 
 	@Embedded
 	private SupportedReceivingType receivingType;
 
-	@Column(name = "performance_duration")
+	@Column(name = "performance_duration", nullable = false)
 	private String duration;
 
-	@Column(name = "location")
+	@Column(name = "location", nullable = false)
 	private String location;
 
-	@Column(name = "location_address")
+	@Column(name = "location_address", nullable = false)
 	private String address;
 
 	@OneToMany(mappedBy = "performance", cascade = CascadeType.PERSIST)
