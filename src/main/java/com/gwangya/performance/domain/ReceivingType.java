@@ -12,5 +12,5 @@ public enum ReceivingType {
 	DELIVERY("배송"),
 	ONSITE_AND_DELIVERY("현장수령/배송");
 
-	String title;
+	private final String title;
 }
