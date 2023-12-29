@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gwangya.global.exception.EntityNotFoundException;
-import com.gwangya.global.util.ConvertUtil;
 import com.gwangya.user.domain.User;
 import com.gwangya.user.dto.UserCreateCommand;
 import com.gwangya.user.dto.UserDto;
@@ -24,13 +23,13 @@ public class UserService {
 	@Transactional
 	public UserDto createUser(final UserCreateCommand userCreateCommand) {
 		User savedUser = userRepository.save(User.of(userCreateCommand, passwordEncoder, userRepository));
-		return ConvertUtil.convert(savedUser, UserDto.class);
+		return new UserDto(savedUser.getId(), savedUser.getEmail());
 	}
 
 	@Transactional(readOnly = true)
 	public UserDto searchUserById(final Long userId) {
 		User user = userRepository.findById(userId)
 			.orElseThrow(() -> new EntityNotFoundException("존재하지 않는 유저입니다.", User.class, userId));
-		return ConvertUtil.convert(user, UserDto.class);
+		return new UserDto(user.getId(), user.getEmail());
 	}
 }

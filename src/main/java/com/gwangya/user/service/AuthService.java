@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gwangya.global.exception.EntityNotFoundException;
-import com.gwangya.global.util.ConvertUtil;
 import com.gwangya.user.domain.User;
 import com.gwangya.user.domain.vo.Email;
 import com.gwangya.user.dto.AuthDto;
@@ -24,7 +23,11 @@ public class AuthService {
 	public AuthDto searchUserByEmail(final String email) {
 		User user = userRepository.findByEmail(Email.of(email))
 			.orElseThrow(() -> new EntityNotFoundException("존재하지 않는 유저입니다.", User.class, email));
-		return ConvertUtil.convert(user, AuthDto.class);
+		return new AuthDto(
+			user.getId(),
+			user.getEmail(),
+			user.getPassword()
+		);
 	}
 
 	public List<Long> searchAccessibleConcertByUserId(final Long userId) {

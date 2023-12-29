@@ -1,11 +1,11 @@
 package com.gwangya.performance.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gwangya.global.util.ConvertUtil;
 import com.gwangya.performance.domain.Seat;
 import com.gwangya.performance.dto.SeatDto;
 import com.gwangya.performance.repository.SeatRepository;
@@ -21,6 +21,15 @@ public class SeatService {
 	@Transactional(readOnly = true)
 	public List<SeatDto> searchAllRemainingSeats(final Long detailId) {
 		List<Seat> result = seatRepository.findRemainingAllByPerformanceDetailId(detailId);
-		return ConvertUtil.convertList(result, SeatDto.class);
+		return result.stream()
+			.map(seat -> new SeatDto(
+					seat.getId(),
+					seat.getSeatClass(),
+					seat.getFloor(),
+					seat.getZone(),
+					seat.getNumber(),
+					seat.getCost()
+				)
+			).collect(Collectors.toUnmodifiableList());
 	}
 }

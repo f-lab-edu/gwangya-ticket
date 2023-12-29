@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gwangya.global.exception.EntityNotFoundException;
-import com.gwangya.global.util.ConvertUtil;
 import com.gwangya.performance.domain.PerformanceDetail;
 import com.gwangya.performance.dto.PerformanceDetailDto;
 import com.gwangya.performance.repository.PerformanceRepository;
@@ -31,6 +30,12 @@ public class PerformanceService {
 		performanceDetail.checkPurchasePeriod(LocalDateTime.now());
 		performanceDetail.checkTicketLimit(purchaseRepository, userId);
 
-		return ConvertUtil.convert(performanceDetail, PerformanceDetailDto.class);
+		return new PerformanceDetailDto(
+			performanceDetail.getId(),
+			performanceDetail.getPurchaseType(),
+			performanceDetail.getLimitCount(),
+			performanceDetail.getTicketingStartTime(),
+			performanceDetail.getTicketingCloseTime()
+		);
 	}
 }
