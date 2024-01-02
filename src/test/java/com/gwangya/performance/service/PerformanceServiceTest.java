@@ -13,8 +13,6 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import com.gwangya.global.exception.EntityNotFoundException;
 import com.gwangya.performance.domain.Performance;
@@ -71,9 +69,11 @@ class PerformanceServiceTest {
 	}
 
 	@DisplayName("존재하지 않는 공연이면 예외가 발생한다.")
-	@ParameterizedTest
-	@ValueSource(longs = 2L)
-	void if_concert_is_not_existed_then_exception_is_thrown(long notExistPerformanceDetailId) {
+	@Test
+	void if_concert_is_not_existed_then_exception_is_thrown() {
+		// given
+		final long notExistPerformanceDetailId = 2L;
+
 		// when & then
 		assertThatThrownBy(
 			() -> performanceService.searchPurchasablePerformanceDetailById(notExistPerformanceDetailId, user.getId()))
