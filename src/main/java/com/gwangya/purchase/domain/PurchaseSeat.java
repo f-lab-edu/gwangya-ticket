@@ -1,5 +1,7 @@
 package com.gwangya.purchase.domain;
 
+import java.time.LocalDateTime;
+
 import com.gwangya.global.base.BaseEntity;
 import com.gwangya.performance.domain.Seat;
 
@@ -13,13 +15,11 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Entity
 @Table(name = "PURCHASE_SEAT")
 public class PurchaseSeat extends BaseEntity {
@@ -35,4 +35,12 @@ public class PurchaseSeat extends BaseEntity {
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "seat_id")
 	private Seat seat;
+
+	public PurchaseSeat(Long id, PurchaseInfo purchaseInfo, Seat seat, LocalDateTime createdAt,
+		LocalDateTime updatedAt) {
+		super(createdAt, updatedAt);
+		this.id = id;
+		this.purchaseInfo = purchaseInfo;
+		this.seat = seat;
+	}
 }

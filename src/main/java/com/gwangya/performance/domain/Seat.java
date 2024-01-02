@@ -1,5 +1,7 @@
 package com.gwangya.performance.domain;
 
+import java.time.LocalDateTime;
+
 import com.gwangya.global.base.BaseEntity;
 
 import jakarta.persistence.Column;
@@ -12,13 +14,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Entity
 @Table(name = "SEAT")
 public class Seat extends BaseEntity {
@@ -45,4 +45,16 @@ public class Seat extends BaseEntity {
 
 	@Column(name = "cost", nullable = false)
 	private int cost;
+
+	public Seat(Long id, PerformanceDetail performanceDetail, String seatClass, String floor, String zone,
+		String number, int cost, LocalDateTime createdAt, LocalDateTime updatedAt) {
+		super(createdAt, updatedAt);
+		this.id = id;
+		this.performanceDetail = performanceDetail;
+		this.seatClass = seatClass;
+		this.floor = floor;
+		this.zone = zone;
+		this.number = number;
+		this.cost = cost;
+	}
 }

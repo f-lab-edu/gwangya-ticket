@@ -66,6 +66,7 @@ public class PerformanceDetail extends BaseEntity {
 		}
 	}
 
+	// Todo 피드백이후 수정하기
 	public void checkTicketLimit(final PurchaseRepository purchaseRepository, final Long userId) {
 		long purchasedCount = purchaseRepository.countPurchasedSeatByPerformanceDetailAndUserId(this, userId);
 		if (purchasedCount >= limitCount) {
