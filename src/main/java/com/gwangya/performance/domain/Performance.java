@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gwangya.global.base.BaseEntity;
-import com.gwangya.performance.domain.vo.SupportedReceivingType;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -36,8 +36,9 @@ public class Performance extends BaseEntity {
 	@Column(name = "genre", nullable = false)
 	private String genre;
 
-	@Embedded
-	private SupportedReceivingType receivingType;
+	@Column(name = "receiving_type", nullable = false)
+	@Enumerated(EnumType.STRING)
+	private ReceivingType receivingType;
 
 	@Column(name = "performance_duration", nullable = false)
 	private String duration;
@@ -51,7 +52,7 @@ public class Performance extends BaseEntity {
 	@OneToMany(mappedBy = "performance", cascade = CascadeType.PERSIST)
 	private List<PerformanceDetail> performanceDetails = new ArrayList<>();
 
-	public Performance(Long id, String title, String genre, SupportedReceivingType receivingType, String duration,
+	public Performance(Long id, String title, String genre, ReceivingType receivingType, String duration,
 		String location, String address, LocalDateTime createdAt, LocalDateTime updatedAt) {
 		super(createdAt, updatedAt);
 		this.id = id;
@@ -61,9 +62,5 @@ public class Performance extends BaseEntity {
 		this.duration = duration;
 		this.location = location;
 		this.address = address;
-	}
-
-	public ReceivingType getReceivingType() {
-		return receivingType.getType();
 	}
 }
