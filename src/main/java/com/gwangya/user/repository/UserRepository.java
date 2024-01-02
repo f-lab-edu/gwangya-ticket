@@ -13,7 +13,7 @@ public interface UserRepository {
 
 	Optional<User> findByEmail(Email email);
 
-	boolean existsById(Long userId);
+	boolean existsById(long userId);
 
-	Optional<User> findById(Long userId);
+	Optional<User> findById(long userId);
 }

@@ -6,5 +6,5 @@ import com.gwangya.performance.domain.Seat;
 
 public interface SeatRepository {
 
-	List<Seat> findRemainingAllByPerformanceDetailId(Long performanceDetailId);
+	List<Seat> findRemainingAllByPerformanceDetailId(long performanceDetailId);
 }

@@ -73,7 +73,7 @@ class PerformanceServiceTest {
 	@DisplayName("존재하지 않는 공연이면 예외가 발생한다.")
 	@ParameterizedTest
 	@ValueSource(longs = 2L)
-	void if_concert_is_not_existed_then_exception_is_thrown(Long notExistPerformanceDetailId) {
+	void if_concert_is_not_existed_then_exception_is_thrown(long notExistPerformanceDetailId) {
 		// when & then
 		assertThatThrownBy(
 			() -> performanceService.searchPurchasablePerformanceDetailById(notExistPerformanceDetailId, user.getId()))

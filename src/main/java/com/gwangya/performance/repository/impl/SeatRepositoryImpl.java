@@ -28,7 +28,7 @@ public class SeatRepositoryImpl implements SeatRepository {
 	}
 
 	@Override
-	public List<Seat> findRemainingAllByPerformanceDetailId(Long detailId) {
+	public List<Seat> findRemainingAllByPerformanceDetailId(long detailId) {
 		return jpaQueryFactory.selectFrom(seat)
 			.where(
 				performanceDetailIdEq(detailId),
@@ -39,7 +39,7 @@ public class SeatRepositoryImpl implements SeatRepository {
 			.fetch();
 	}
 
-	private BooleanExpression performanceDetailIdEq(final Long detailId) {
+	private BooleanExpression performanceDetailIdEq(final long detailId) {
 		return ObjectUtils.isEmpty(detailId) ? null : seat.performanceDetail.id.eq(detailId);
 	}
 }

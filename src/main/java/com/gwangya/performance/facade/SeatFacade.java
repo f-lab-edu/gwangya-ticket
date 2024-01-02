@@ -23,7 +23,7 @@ public class SeatFacade {
 
 	private final PerformanceService performanceService;
 
-	public List<SeatDto> searchAllRemainingSeats(final Long detailId, final Long userId) {
+	public List<SeatDto> searchAllRemainingSeats(final long detailId, final long userId) {
 		UserDto userDto = userService.searchUserById(userId);
 		PerformanceDetailDto detailDto = performanceService.searchPurchasablePerformanceDetailById(detailId,
 			userDto.getId());

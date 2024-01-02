@@ -19,7 +19,7 @@ public class SeatService {
 	private final SeatRepository seatRepository;
 
 	@Transactional(readOnly = true)
-	public List<SeatDto> searchAllRemainingSeats(final Long detailId) {
+	public List<SeatDto> searchAllRemainingSeats(final long detailId) {
 		List<Seat> result = seatRepository.findRemainingAllByPerformanceDetailId(detailId);
 		return result.stream()
 			.map(seat -> new SeatDto(

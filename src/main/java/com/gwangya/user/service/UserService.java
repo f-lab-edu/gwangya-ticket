@@ -27,7 +27,7 @@ public class UserService {
 	}
 
 	@Transactional(readOnly = true)
-	public UserDto searchUserById(final Long userId) {
+	public UserDto searchUserById(final long userId) {
 		User user = userRepository.findById(userId)
 			.orElseThrow(() -> new EntityNotFoundException("존재하지 않는 유저입니다.", User.class, userId));
 		return new UserDto(user.getId(), user.getEmail());

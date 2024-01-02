@@ -20,8 +20,8 @@ public class SeatController {
 	private final SeatFacade seatFacade;
 
 	@GetMapping("/api/v1/performance/{performanceId}/{performanceDetailId}/seat")
-	public ResponseEntity<List<SeatDto>> searchAllRemainingSeat(@PathVariable Long performanceId,
-		@PathVariable Long performanceDetailId, @RequestAttribute(name = "userId") Long userId) {
+	public ResponseEntity<List<SeatDto>> searchAllRemainingSeat(@PathVariable long performanceId,
+		@PathVariable long performanceDetailId, @RequestAttribute(name = "userId") long userId) {
 		return ResponseEntity.ok(seatFacade.searchAllRemainingSeats(performanceDetailId, userId));
 	}
 }

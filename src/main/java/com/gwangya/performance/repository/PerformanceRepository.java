@@ -6,5 +6,5 @@ import com.gwangya.performance.domain.PerformanceDetail;
 
 public interface PerformanceRepository {
 
-	Optional<PerformanceDetail> findPerformanceDetailById(Long id);
+	Optional<PerformanceDetail> findPerformanceDetailById(long id);
 }

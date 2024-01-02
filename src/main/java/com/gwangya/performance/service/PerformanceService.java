@@ -22,7 +22,7 @@ public class PerformanceService {
 	private final PurchaseRepository purchaseRepository;
 
 	@Transactional(readOnly = true)
-	public PerformanceDetailDto searchPurchasablePerformanceDetailById(final Long detailId, final Long userId) {
+	public PerformanceDetailDto searchPurchasablePerformanceDetailById(final long detailId, final long userId) {
 		PerformanceDetail performanceDetail = performanceRepository.findPerformanceDetailById(detailId)
 			.orElseThrow(
 				() -> new EntityNotFoundException("존재하지 않는 공연입니다.", PerformanceDetail.class, detailId, userId));

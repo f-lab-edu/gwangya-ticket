@@ -17,7 +17,7 @@ public class InMemorySeatRepository implements SeatRepository {
 	}
 
 	@Override
-	public List<Seat> findRemainingAllByPerformanceDetailId(Long performanceDetailId) {
+	public List<Seat> findRemainingAllByPerformanceDetailId(long performanceDetailId) {
 		return seats.values().stream()
 			.filter(seat -> seat.getPerformanceDetail().getId().equals(performanceDetailId))
 			.collect(Collectors.toUnmodifiableList());

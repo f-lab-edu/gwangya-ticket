@@ -31,7 +31,7 @@ public class InMemoryPerformanceRepository implements PerformanceRepository {
 	}
 
 	@Override
-	public Optional<PerformanceDetail> findPerformanceDetailById(Long id) {
+	public Optional<PerformanceDetail> findPerformanceDetailById(long id) {
 		return Optional.ofNullable(performanceDetails.get(id));
 	}
 }

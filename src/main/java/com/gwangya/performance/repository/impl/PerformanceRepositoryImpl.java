@@ -18,7 +18,7 @@ public class PerformanceRepositoryImpl implements PerformanceRepository {
 	}
 
 	@Override
-	public Optional<PerformanceDetail> findPerformanceDetailById(Long id) {
+	public Optional<PerformanceDetail> findPerformanceDetailById(long id) {
 		return jpaRepository.findById(id);
 	}
 }
