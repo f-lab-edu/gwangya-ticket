@@ -41,10 +41,16 @@ public class User extends BaseEntity {
 		this.password = password;
 	}
 
+	public User(Email email, Password password, LocalDateTime createdAt, LocalDateTime updatedAt) {
+		super(createdAt, updatedAt);
+		this.id = id;
+		this.email = email;
+		this.password = password;
+	}
+
 	public static User of(final UserCreateCommand userCreateCommand, final PasswordEncoder passwordEncoder,
 		final UserRepository userRepository) {
 		return new User(
-			null,
 			Email.of(userCreateCommand.getEmail(), userRepository),
 			Password.of(userCreateCommand.getPassword(), passwordEncoder),
 			LocalDateTime.now(),
