@@ -7,7 +7,6 @@ import static com.gwangya.purchase.domain.QPurchaseSeat.*;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.util.ObjectUtils;
 
 import com.gwangya.performance.domain.Seat;
 import com.gwangya.performance.repository.SeatJpaRepository;
@@ -40,6 +39,6 @@ public class SeatRepositoryImpl implements SeatRepository {
 	}
 
 	private BooleanExpression performanceDetailIdEq(final long detailId) {
-		return ObjectUtils.isEmpty(detailId) ? null : seat.performanceDetail.id.eq(detailId);
+		return seat.performanceDetail.id.eq(detailId);
 	}
 }

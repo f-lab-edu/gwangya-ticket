@@ -33,7 +33,7 @@ public class PurchaseRepositoryImpl implements PurchaseRepository {
 	}
 
 	@Override
-	public long countPurchasedSeatByPerformanceDetailAndUserId(PerformanceDetail detail, Long userId) {
+	public long countPurchasedSeatByPerformanceDetailAndUserId(PerformanceDetail detail, long userId) {
 		return jpaQueryFactory.select(purchaseSeat.count())
 			.from(purchaseSeat)
 			.where(
@@ -49,7 +49,7 @@ public class PurchaseRepositoryImpl implements PurchaseRepository {
 		return ObjectUtils.isEmpty(detail) ? null : purchaseSeat.purchaseInfo.performanceDetail.eq(detail);
 	}
 
-	private BooleanExpression userIdEq(final Long userId) {
-		return ObjectUtils.isEmpty(userId) ? null : purchaseSeat.purchaseInfo.user.id.eq(userId);
+	private BooleanExpression userIdEq(final long userId) {
+		return purchaseSeat.purchaseInfo.user.id.eq(userId);
 	}
 }
