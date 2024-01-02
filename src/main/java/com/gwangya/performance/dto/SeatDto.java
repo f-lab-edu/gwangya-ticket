@@ -1,24 +1,21 @@
 package com.gwangya.performance.dto;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class SeatDto {
 
-	private long id;
+	private final long id;
 
-	private String seatClass;
+	private final String seatClass;
 
-	private String floor;
+	private final String floor;
 
-	private String zone;
+	private final String zone;
 
-	private String number;
+	private final String number;
 
-	private int cost;
+	private final int cost;
 }

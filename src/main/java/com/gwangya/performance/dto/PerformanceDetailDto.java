@@ -4,23 +4,20 @@ import java.time.LocalDateTime;
 
 import com.gwangya.purchase.domain.PurchaseType;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class PerformanceDetailDto {
 
-	private Long id;
+	private final Long id;
 
-	private PurchaseType purchaseType;
+	private final PurchaseType purchaseType;
 
-	private Integer limitCount;
+	private final Integer limitCount;
 
-	private LocalDateTime ticketingStartTime;
+	private final LocalDateTime ticketingStartTime;
 
-	private LocalDateTime ticketingCloseTime;
+	private final LocalDateTime ticketingCloseTime;
 }
