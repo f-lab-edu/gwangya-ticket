@@ -33,7 +33,7 @@ public class PurchaseRepositoryImpl implements PurchaseRepository {
 	}
 
 	@Override
-	public long countPurchasedSeatByPerformanceDetailAndUserId(PerformanceDetail detail, long userId) {
+	public long countPurchasedSeat(PerformanceDetail detail, long userId) {
 		return jpaQueryFactory.select(purchaseSeat.count())
 			.from(purchaseSeat)
 			.where(

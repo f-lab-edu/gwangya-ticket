@@ -28,7 +28,7 @@ public class InMemoryPurchaseRepository implements PurchaseRepository {
 	}
 
 	@Override
-	public long countPurchasedSeatByPerformanceDetailAndUserId(PerformanceDetail performanceDetail, Long userId) {
+	public long countPurchasedSeat(PerformanceDetail performanceDetail, long userId) {
 		return seats.values().stream()
 			.filter(seat -> seat.getPurchaseInfo().getPerformanceDetail().equals(performanceDetail)
 				&& seat.getPurchaseInfo().getUser().getId().equals(userId))

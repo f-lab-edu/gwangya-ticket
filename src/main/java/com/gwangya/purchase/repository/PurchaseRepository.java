@@ -7,5 +7,5 @@ public interface PurchaseRepository {
 
 	PurchaseInfo save(PurchaseInfo purchaseInfo);
 
-	long countPurchasedSeatByPerformanceDetailAndUserId(PerformanceDetail performanceDetail, long userId);
+	long countPurchasedSeat(PerformanceDetail performanceDetail, long userId);
 }

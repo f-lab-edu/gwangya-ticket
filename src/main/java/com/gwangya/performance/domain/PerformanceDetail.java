@@ -68,7 +68,7 @@ public class PerformanceDetail extends BaseEntity {
 
 	// Todo 피드백이후 수정하기
 	public void checkTicketLimit(final PurchaseRepository purchaseRepository, final Long userId) {
-		long purchasedCount = purchaseRepository.countPurchasedSeatByPerformanceDetailAndUserId(this, userId);
+		long purchasedCount = purchaseRepository.countPurchasedSeat(this, userId);
 		if (purchasedCount >= limitCount) {
 			throw new UnavailablePurchaseException("예매 가능 매수를 초과했습니다.");
 		}
