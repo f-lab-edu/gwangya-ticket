@@ -2,7 +2,7 @@ package com.gwangya.performance.facade;
 
 import java.util.List;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.gwangya.performance.dto.PerformanceDetailDto;
 import com.gwangya.performance.dto.SeatDto;
@@ -14,7 +14,7 @@ import com.gwangya.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@Component
+@Service
 public class SeatFacade {
 
 	private final UserService userService;
