@@ -34,16 +34,8 @@ public class User extends BaseEntity {
 	protected User() {
 	}
 
-	public User(Long id, Email email, Password password, LocalDateTime createdAt, LocalDateTime updatedAt) {
-		super(createdAt, updatedAt);
-		this.id = id;
-		this.email = email;
-		this.password = password;
-	}
-
 	public User(Email email, Password password, LocalDateTime createdAt, LocalDateTime updatedAt) {
 		super(createdAt, updatedAt);
-		this.id = id;
 		this.email = email;
 		this.password = password;
 	}
@@ -56,6 +48,13 @@ public class User extends BaseEntity {
 			LocalDateTime.now(),
 			LocalDateTime.now()
 		);
+	}
+
+	protected User(Long id, Email email, Password password, LocalDateTime createdAt, LocalDateTime updatedAt) {
+		super(createdAt, updatedAt);
+		this.id = id;
+		this.email = email;
+		this.password = password;
 	}
 
 	public Long getId() {

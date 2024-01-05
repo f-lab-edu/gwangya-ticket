@@ -36,7 +36,14 @@ public class PurchaseSeat extends BaseEntity {
 	@JoinColumn(name = "seat_id")
 	private Seat seat;
 
-	public PurchaseSeat(Long id, PurchaseInfo purchaseInfo, Seat seat, LocalDateTime createdAt,
+	public PurchaseSeat(PurchaseInfo purchaseInfo, Seat seat, LocalDateTime createdAt,
+		LocalDateTime updatedAt) {
+		super(createdAt, updatedAt);
+		this.purchaseInfo = purchaseInfo;
+		this.seat = seat;
+	}
+
+	protected PurchaseSeat(Long id, PurchaseInfo purchaseInfo, Seat seat, LocalDateTime createdAt,
 		LocalDateTime updatedAt) {
 		super(createdAt, updatedAt);
 		this.id = id;

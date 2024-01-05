@@ -55,7 +55,16 @@ public class PurchaseInfo extends BaseEntity {
 	@Embedded
 	private PurchaseSerialNumber serialNumber;
 
-	public PurchaseInfo(Long id, PerformanceDetail performanceDetail, User user, ReceivingType receivingType,
+	public PurchaseInfo(PerformanceDetail performanceDetail, User user, ReceivingType receivingType,
+		PurchaseSerialNumber serialNumber, LocalDateTime createdAt, LocalDateTime updatedAt) {
+		super(createdAt, updatedAt);
+		this.performanceDetail = performanceDetail;
+		this.user = user;
+		this.receivingType = receivingType;
+		this.serialNumber = serialNumber;
+	}
+
+	protected PurchaseInfo(Long id, PerformanceDetail performanceDetail, User user, ReceivingType receivingType,
 		PurchaseSerialNumber serialNumber, LocalDateTime createdAt, LocalDateTime updatedAt) {
 		super(createdAt, updatedAt);
 		this.id = id;
