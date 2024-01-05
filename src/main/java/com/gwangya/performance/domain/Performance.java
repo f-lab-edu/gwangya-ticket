@@ -52,7 +52,18 @@ public class Performance extends BaseEntity {
 	@OneToMany(mappedBy = "performance", cascade = CascadeType.PERSIST)
 	private List<PerformanceDetail> performanceDetails = new ArrayList<>();
 
-	public Performance(Long id, String title, String genre, ReceivingType receivingType, String duration,
+	public Performance(String title, String genre, ReceivingType receivingType, String duration, String location,
+		String address, LocalDateTime createdAt, LocalDateTime updatedAt) {
+		super(createdAt, updatedAt);
+		this.title = title;
+		this.genre = genre;
+		this.receivingType = receivingType;
+		this.duration = duration;
+		this.location = location;
+		this.address = address;
+	}
+
+	protected Performance(Long id, String title, String genre, ReceivingType receivingType, String duration,
 		String location, String address, LocalDateTime createdAt, LocalDateTime updatedAt) {
 		super(createdAt, updatedAt);
 		this.id = id;

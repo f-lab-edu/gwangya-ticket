@@ -46,7 +46,18 @@ public class Seat extends BaseEntity {
 	@Column(name = "cost", nullable = false)
 	private int cost;
 
-	public Seat(Long id, PerformanceDetail performanceDetail, String seatClass, String floor, String zone,
+	public Seat(PerformanceDetail performanceDetail, String seatClass, String floor, String zone, String number,
+		int cost, LocalDateTime createdAt, LocalDateTime updatedAt) {
+		super(createdAt, updatedAt);
+		this.performanceDetail = performanceDetail;
+		this.seatClass = seatClass;
+		this.floor = floor;
+		this.zone = zone;
+		this.number = number;
+		this.cost = cost;
+	}
+
+	protected Seat(Long id, PerformanceDetail performanceDetail, String seatClass, String floor, String zone,
 		String number, int cost, LocalDateTime createdAt, LocalDateTime updatedAt) {
 		super(createdAt, updatedAt);
 		this.id = id;

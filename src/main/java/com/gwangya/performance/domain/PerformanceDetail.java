@@ -48,7 +48,18 @@ public class PerformanceDetail extends BaseEntity {
 	@Column(name = "ticketing_close_datetime", nullable = false)
 	private LocalDateTime ticketingCloseTime;
 
-	public PerformanceDetail(Long id, Performance performance, PurchaseType purchaseType, int limitCount,
+	public PerformanceDetail(Performance performance, PurchaseType purchaseType, int limitCount,
+		LocalDateTime ticketingStartTime, LocalDateTime ticketingCloseTime, LocalDateTime createdAt,
+		LocalDateTime updatedAt) {
+		super(createdAt, updatedAt);
+		this.performance = performance;
+		this.purchaseType = purchaseType;
+		this.limitCount = limitCount;
+		this.ticketingStartTime = ticketingStartTime;
+		this.ticketingCloseTime = ticketingCloseTime;
+	}
+
+	protected PerformanceDetail(Long id, Performance performance, PurchaseType purchaseType, int limitCount,
 		LocalDateTime ticketingStartTime, LocalDateTime ticketingCloseTime, LocalDateTime createdAt,
 		LocalDateTime updatedAt) {
 		super(createdAt, updatedAt);
