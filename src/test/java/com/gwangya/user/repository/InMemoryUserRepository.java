@@ -34,10 +34,20 @@ public class InMemoryUserRepository implements UserRepository {
 	}
 
 	@Override
-	public boolean existsById(final Long userId) {
+	public boolean existsById(final long userId) {
 		return users.entrySet()
 			.stream()
 			.anyMatch(user -> user.getKey().equals(userId));
+	}
+
+	@Override
+	public Optional<User> findById(long userId) {
+		Optional<Map.Entry<Long, User>> result = users.entrySet()
+			.stream()
+			.filter(user -> user.getKey().equals(userId))
+			.findFirst();
+
+		return Optional.ofNullable(result.get().getValue());
 	}
 
 }

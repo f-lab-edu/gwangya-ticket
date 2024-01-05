@@ -50,6 +50,13 @@ public class User extends BaseEntity {
 		);
 	}
 
+	protected User(Long id, Email email, Password password, LocalDateTime createdAt, LocalDateTime updatedAt) {
+		super(createdAt, updatedAt);
+		this.id = id;
+		this.email = email;
+		this.password = password;
+	}
+
 	public Long getId() {
 		return id;
 	}
