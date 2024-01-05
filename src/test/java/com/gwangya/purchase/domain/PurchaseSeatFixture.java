@@ -1,10 +1,8 @@
-package com.gwangya.fixture.purchase;
+package com.gwangya.purchase.domain;
 
 import java.time.LocalDateTime;
 
 import com.gwangya.performance.domain.Seat;
-import com.gwangya.purchase.domain.PurchaseInfo;
-import com.gwangya.purchase.domain.PurchaseSeat;
 
 public class PurchaseSeatFixture {
 

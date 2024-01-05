@@ -1,8 +1,7 @@
-package com.gwangya.fixture.user;
+package com.gwangya.user.domain;
 
 import java.time.LocalDateTime;
 
-import com.gwangya.user.domain.User;
 import com.gwangya.user.domain.vo.Email;
 import com.gwangya.user.domain.vo.Password;
 
