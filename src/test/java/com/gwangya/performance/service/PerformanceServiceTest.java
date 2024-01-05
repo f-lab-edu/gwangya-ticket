@@ -1,11 +1,11 @@
 package com.gwangya.performance.service;
 
-import static com.gwangya.fixture.performance.PerformanceDetailFixture.*;
-import static com.gwangya.fixture.performance.PerformanceFixture.*;
-import static com.gwangya.fixture.performance.SeatFixture.*;
 import static com.gwangya.fixture.purchase.PurchaseInfoFixture.*;
 import static com.gwangya.fixture.purchase.PurchaseSeatFixture.*;
 import static com.gwangya.fixture.user.UserFixture.*;
+import static com.gwangya.performance.domain.PerformanceDetailFixture.*;
+import static com.gwangya.performance.domain.PerformanceFixture.*;
+import static com.gwangya.performance.domain.SeatFixture.*;
 import static org.assertj.core.api.Assertions.*;
 
 import java.time.LocalDateTime;

@@ -1,10 +1,8 @@
-package com.gwangya.fixture.performance;
+package com.gwangya.performance.domain;
 
 import static com.gwangya.performance.domain.ReceivingType.*;
 
 import java.time.LocalDateTime;
-
-import com.gwangya.performance.domain.Performance;
 
 public class PerformanceFixture {
 

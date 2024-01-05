@@ -1,11 +1,8 @@
-package com.gwangya.fixture.performance;
+package com.gwangya.performance.domain;
 
 import static com.gwangya.purchase.domain.PurchaseType.*;
 
 import java.time.LocalDateTime;
-
-import com.gwangya.performance.domain.Performance;
-import com.gwangya.performance.domain.PerformanceDetail;
 
 public class PerformanceDetailFixture {
 
