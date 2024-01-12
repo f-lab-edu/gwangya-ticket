@@ -10,6 +10,7 @@ import com.gwangya.performance.domain.Seat;
 import com.gwangya.performance.exception.UnavailablePurchaseException;
 import com.gwangya.performance.repository.SeatRepository;
 import com.gwangya.purchase.domain.PurchaseSeat;
+import com.gwangya.purchase.dto.CreateSelectSeatCommand;
 import com.gwangya.purchase.repository.PurchaseSeatRepository;
 import com.gwangya.user.domain.User;
 import com.gwangya.user.repository.UserRepository;
@@ -27,11 +28,13 @@ public class PurchaseService {
 	private final PurchaseSeatRepository purchaseSeatRepository;
 
 	@Transactional(isolation = READ_UNCOMMITTED)
-	public void selectSeat(final long userId, final long seatId) {
-		final User user = userRepository.findById(userId)
-			.orElseThrow(() -> new EntityNotFoundException("해당 유저가 존재하지 않습니다.", User.class, userId));
-		final Seat seat = seatRepository.findById(seatId)
-			.orElseThrow(() -> new EntityNotFoundException("해당 좌석이 존재하지 않습니다.", Seat.class, seatId));
+	public void selectSeat(final CreateSelectSeatCommand createSelectSeatCommand) {
+		final User user = userRepository.findById(createSelectSeatCommand.getUserId())
+			.orElseThrow(() -> new EntityNotFoundException("해당 유저가 존재하지 않습니다.", User.class,
+				createSelectSeatCommand.getUserId()));
+		final Seat seat = seatRepository.findById(createSelectSeatCommand.getSeatId())
+			.orElseThrow(() -> new EntityNotFoundException("해당 좌석이 존재하지 않습니다.", Seat.class,
+				createSelectSeatCommand.getUserId()));
 		if (purchaseSeatRepository.existsBySeat(seat)) {
 			throw new UnavailablePurchaseException("이미 선택된 좌석입니다.");
 		}
