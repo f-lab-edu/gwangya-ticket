@@ -3,6 +3,7 @@ package com.gwangya.purchase.repository.impl;
 import org.springframework.stereotype.Repository;
 
 import com.gwangya.performance.domain.Seat;
+import com.gwangya.purchase.domain.PurchaseSeat;
 import com.gwangya.purchase.repository.PurchaseSeatJpaRepository;
 import com.gwangya.purchase.repository.PurchaseSeatRepository;
 
@@ -17,5 +18,10 @@ public class PurchaseSeatRepositoryImpl implements PurchaseSeatRepository {
 	@Override
 	public boolean existsBySeat(Seat seat) {
 		return jpaRepository.existsBySeat(seat);
+	}
+
+	@Override
+	public PurchaseSeat save(PurchaseSeat purchaseSeat) {
+		return jpaRepository.save(purchaseSeat);
 	}
 }
