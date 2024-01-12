@@ -5,6 +5,7 @@ import static com.gwangya.performance.domain.QSeat.*;
 import static com.gwangya.purchase.domain.QPurchaseSeat.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
@@ -36,6 +37,11 @@ public class SeatRepositoryImpl implements SeatRepository {
 			.join(seat.performanceDetail, performanceDetail).fetchJoin()
 			.join(purchaseSeat).on(purchaseSeat.seat.eq(seat))
 			.fetch();
+	}
+
+	@Override
+	public Optional<Seat> findById(long seatId) {
+		return jpaRepository.findById(seatId);
 	}
 
 	private BooleanExpression performanceDetailIdEq(final long detailId) {
