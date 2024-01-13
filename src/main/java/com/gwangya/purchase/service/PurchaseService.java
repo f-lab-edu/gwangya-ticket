@@ -1,5 +1,6 @@
 package com.gwangya.purchase.service;
 
+import static com.gwangya.performance.exception.UnavailablePurchaseType.*;
 import static org.springframework.transaction.annotation.Isolation.*;
 
 import org.springframework.stereotype.Service;
@@ -36,7 +37,7 @@ public class PurchaseService {
 			.orElseThrow(() -> new EntityNotFoundException("해당 좌석이 존재하지 않습니다.", Seat.class,
 				createSelectSeatCommand.getUserId()));
 		if (purchaseSeatRepository.existsBySeat(seat)) {
-			throw new UnavailablePurchaseException("이미 선택된 좌석입니다.");
+			throw new UnavailablePurchaseException("이미 선택된 좌석입니다.", SELECTED_SEAT, seat.getPerformanceDetail().getId());
 		}
 		purchaseSeatRepository.save(PurchaseSeat.selectSeat(user, seat));
 	}

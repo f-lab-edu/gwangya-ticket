@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.gwangya.global.base.ExceptionResponse;
 import com.gwangya.global.exception.EntityNotFoundException;
+import com.gwangya.performance.exception.UnavailablePurchaseException;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -27,6 +28,18 @@ public class GlobalExceptionHandler {
 			.message(exception.getMessage())
 			.build();
 		return new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
+	}
+
+	@ExceptionHandler(UnavailablePurchaseException.class)
+	public ResponseEntity<?> handlePurchaseException(UnavailablePurchaseException exception) {
+		log.info("Type : {}, Performance Detail PK : {}",
+			exception.getType(),
+			exception.getPerformanceDetailId()
+		);
+		ExceptionResponse exceptionResponse = ExceptionResponse.builder()
+			.message(exception.getMessage())
+			.build();
+		return ResponseEntity.badRequest().body(exceptionResponse);
 	}
 
 	@ExceptionHandler({IllegalArgumentException.class})
