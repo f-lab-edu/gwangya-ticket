@@ -16,7 +16,7 @@ import lombok.extern.log4j.Log4j2;
 public class GlobalExceptionHandler {
 
 	@ExceptionHandler(EntityNotFoundException.class)
-	public ResponseEntity<?> handleEntityException(EntityNotFoundException exception) {
+	public ResponseEntity<ExceptionResponse> handleEntityException(EntityNotFoundException exception) {
 		log.info("Message : {}, Entity : {}, RequestId : {}, Request : {}, RequestUserId : {}",
 			exception.getMessage(),
 			exception.getEntityType(),
@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(UnavailablePurchaseException.class)
-	public ResponseEntity<?> handlePurchaseException(UnavailablePurchaseException exception) {
+	public ResponseEntity<ExceptionResponse> handlePurchaseException(UnavailablePurchaseException exception) {
 		log.info("Type : {}, Performance Detail PK : {}",
 			exception.getType(),
 			exception.getPerformanceDetailId()
@@ -43,7 +43,7 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler({IllegalArgumentException.class})
-	public ResponseEntity<?> handleClientException(RuntimeException exception) {
+	public ResponseEntity<ExceptionResponse> handleClientException(RuntimeException exception) {
 		log.info(exception.getMessage());
 		ExceptionResponse exceptionResponse = ExceptionResponse.builder()
 			.message(exception.getMessage())
@@ -52,7 +52,7 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler({RuntimeException.class})
-	public ResponseEntity<?> handleRuntimeException(RuntimeException exception) {
+	public ResponseEntity<ExceptionResponse> handleRuntimeException(RuntimeException exception) {
 		log.info(exception.getMessage());
 		ExceptionResponse exceptionResponse = ExceptionResponse.builder()
 			.message(exception.getMessage())
@@ -61,7 +61,7 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler({Exception.class})
-	public ResponseEntity<?> handleServerException(Exception exception) {
+	public ResponseEntity<ExceptionResponse> handleServerException(Exception exception) {
 		log.info(exception.getMessage());
 		ExceptionResponse exceptionResponse = ExceptionResponse.builder()
 			.message(exception.getMessage())
