@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
 		ExceptionResponse exceptionResponse = ExceptionResponse.builder()
 			.message(exception.getMessage())
 			.build();
-		return ResponseEntity.badRequest().body(exceptionResponse);
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(exceptionResponse);
 	}
 
 	@ExceptionHandler({IllegalArgumentException.class})
