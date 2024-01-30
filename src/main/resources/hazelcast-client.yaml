@@ -1,0 +1,5 @@
+hazelcast-client:
+  cluster-name: gwangya-1
+  network:
+    cluster-members:
+      - localhost
