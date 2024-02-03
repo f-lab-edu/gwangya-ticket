@@ -54,14 +54,14 @@ public class SeatService {
 
 		final List<FencedLock> validLocks = fencedLocks.stream()
 			.filter(fencedLock -> fencedLock.tryLock(1, TimeUnit.MINUTES))
-			.collect(Collectors.toUnmodifiableList());
+			.toList();
 		try {
 			if (validLocks.size() == fencedLocks.size()) {
 				validLocks.forEach(lock -> selectedSeats.put(lock.getName(), selectSeatInfo.getUserId(), 5,
 					TimeUnit.MINUTES));
 			}
 		} finally {
-			validLocks.forEach(lock -> lock.unlock());
+			validLocks.forEach(FencedLock::unlock);
 		}
 
 		if (validLocks.size() != fencedLocks.size()) {

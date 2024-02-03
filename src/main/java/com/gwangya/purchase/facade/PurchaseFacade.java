@@ -2,7 +2,6 @@ package com.gwangya.purchase.facade;
 
 import org.springframework.stereotype.Service;
 
-import com.gwangya.performance.dto.PerformanceDetailDto;
 import com.gwangya.performance.service.PerformanceService;
 import com.gwangya.performance.service.SeatService;
 import com.gwangya.purchase.dto.SelectSeatInfo;
@@ -26,8 +25,7 @@ public class PurchaseFacade {
 
 	public void selectAllSeats(final SelectSeatInfo selectSeatInfo) {
 		final UserDto userDto = userService.searchUserById(selectSeatInfo.getUserId());
-		final PerformanceDetailDto performanceDetailDto = performanceService.searchPurchasablePerformanceDetailById(
-			selectSeatInfo.getPerformanceDetailId(),
+		performanceService.searchPurchasablePerformanceDetailById(selectSeatInfo.getPerformanceDetailId(),
 			userDto.getId());
 		purchaseService.checkValidSeat(selectSeatInfo);
 		seatService.selectSeat(selectSeatInfo);
