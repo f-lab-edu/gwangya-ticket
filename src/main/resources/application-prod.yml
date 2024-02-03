@@ -6,3 +6,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
+jwt:
+  duration:
+    access: 3600
+    refresh: 259200
