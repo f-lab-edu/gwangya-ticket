@@ -22,4 +22,11 @@ public class InMemorySeatRepository implements SeatRepository {
 			.filter(seat -> seat.getPerformanceDetail().getId().equals(performanceDetailId))
 			.collect(Collectors.toUnmodifiableList());
 	}
+
+	@Override
+	public List<Seat> findAllById(List<Long> seatIds) {
+		return seats.values().stream()
+			.filter(seat -> seatIds.contains(seat.getId()))
+			.collect(Collectors.toUnmodifiableList());
+	}
 }

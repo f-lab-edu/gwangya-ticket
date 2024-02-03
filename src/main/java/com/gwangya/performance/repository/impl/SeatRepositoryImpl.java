@@ -5,7 +5,6 @@ import static com.gwangya.performance.domain.QSeat.*;
 import static com.gwangya.purchase.domain.QPurchaseSeat.*;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +13,8 @@ import com.gwangya.performance.repository.SeatJpaRepository;
 import com.gwangya.performance.repository.SeatRepository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+
+import jakarta.annotation.Nonnull;
 
 @Repository
 public class SeatRepositoryImpl implements SeatRepository {
@@ -40,8 +41,8 @@ public class SeatRepositoryImpl implements SeatRepository {
 	}
 
 	@Override
-	public Optional<Seat> findById(long seatId) {
-		return jpaRepository.findById(seatId);
+	public List<Seat> findAllById(@Nonnull List<Long> seatIds) {
+		return jpaRepository.findAllById(seatIds);
 	}
 
 	private BooleanExpression performanceDetailIdEq(final long detailId) {
