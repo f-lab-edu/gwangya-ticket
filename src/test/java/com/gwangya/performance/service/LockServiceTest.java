@@ -19,7 +19,7 @@ import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.map.IMap;
 import com.hazelcast.test.TestHazelcastInstanceFactory;
 
-public class LockServiceTest {
+class LockServiceTest {
 
 	SeatRepository seatRepository;
 
@@ -84,7 +84,7 @@ public class LockServiceTest {
 		latch.await();
 
 		// then
-		assertThat(selectedSeats.values().size()).isEqualTo(3);
+		assertThat(selectedSeats.values()).hasSize(3);
 		if (selectedSeats.containsKey(1L)) {
 			assertThat(selectedSeats.get(1L)).isEqualTo(firstUser.getUserId());
 			assertThat(selectedSeats.get(2L)).isEqualTo(firstUser.getUserId());
@@ -121,7 +121,7 @@ public class LockServiceTest {
 
 					} else {
 						seatService.selectSeat(infos.get(finalI));
-						assertThat(selectedSeats.keySet().size()).isEqualTo(3);
+						assertThat(selectedSeats.keySet()).hasSize(3);
 					}
 				} finally {
 					latch.countDown();

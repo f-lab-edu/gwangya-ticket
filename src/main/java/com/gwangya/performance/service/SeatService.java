@@ -94,6 +94,6 @@ public class SeatService {
 	}
 
 	private boolean isSelected(final IMap<Long, Long> selectedSeats, final FencedLock lock) {
-		return selectedSeats.containsKey(lock.getName()) || lock.isLocked();
+		return selectedSeats.containsKey(Long.valueOf(lock.getName())) || lock.isLocked();
 	}
 }
