@@ -41,7 +41,7 @@ public class PurchaseService {
 				});
 		}
 		if (purchaseSeatRepository.existsAnyBySeat(seats)) {
-			throw new UnavailablePurchaseException("이미 선택된 좌석입니다.", SELECTED_SEAT,
+			throw new UnavailablePurchaseException("이미 예매 완료된 좌석입니다.", PURCHASED_SEAT,
 				selectSeatInfo.getPerformanceDetailId());
 		}
 	}
