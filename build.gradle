@@ -43,6 +43,7 @@ dependencies {
 
     // Hazelcast
     implementation 'com.hazelcast:hazelcast-spring:5.3.6'
+    testImplementation 'com.hazelcast:hazelcast:5.3.6:tests'
 
 }
 
