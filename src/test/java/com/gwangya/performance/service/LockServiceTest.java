@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.gwangya.performance.exception.UnavailablePurchaseException;
 import com.gwangya.performance.repository.InMemorySeatRepository;
 import com.gwangya.performance.repository.SeatRepository;
 import com.gwangya.purchase.dto.SelectSeatInfo;
@@ -26,7 +27,7 @@ public class LockServiceTest {
 
 	SeatService seatService;
 
-	IMap<String, Long> selectedSeats;
+	IMap<Long, Long> selectedSeats;
 
 	@BeforeEach
 	void setUp() {
@@ -49,9 +50,8 @@ public class LockServiceTest {
 		seatService.selectSeat(new SelectSeatInfo(performanceDetailId, userId, seatIds));
 
 		// then
-		IMap<String, Long> selectedSeats = hazelcastInstance.getMap(String.valueOf(performanceDetailId));
 		for (int i = 0; i < 3; i++) {
-			String key = String.valueOf(seatIds.get(i));
+			long key = seatIds.get(i);
 			assertThat(selectedSeats.containsKey(key)).isTrue();
 			assertThat(selectedSeats.get(key)).isEqualTo(userId);
 		}
@@ -95,6 +95,41 @@ public class LockServiceTest {
 			assertThat(selectedSeats.get(3L)).isEqualTo(secondUser.getUserId());
 			assertThat(selectedSeats.get(4L)).isEqualTo(secondUser.getUserId());
 		}
+	}
+
+	@DisplayName("중복 요청은 한 번만 반영된다.")
+	@Test
+	void duplicate_requests_are_reflected_only_once() throws InterruptedException {
+		// given
+		long performanceDetailId = 1L;
+		SelectSeatInfo request = new SelectSeatInfo(performanceDetailId, 1L, List.of(1L, 2L, 3L));
+		SelectSeatInfo duplicateRequest = new SelectSeatInfo(performanceDetailId, 1L, List.of(1L, 2L, 3L));
+		int numberOfThreads = 2;
+		ExecutorService service = Executors.newFixedThreadPool(2);
+		CountDownLatch latch = new CountDownLatch(numberOfThreads);
+		List<SelectSeatInfo> infos = List.of(request, duplicateRequest);
+
+		// when & then
+		for (int i = 0; i < numberOfThreads; i++) {
+			int finalI = i;
+			service.submit(() -> {
+				try {
+					if (finalI == 1) {
+						assertThatThrownBy(() -> seatService.selectSeat(infos.get(finalI)))
+							.isInstanceOf(UnavailablePurchaseException.class)
+							.hasMessageContaining("이미 선택된 좌석입니다.");
+
+					} else {
+						seatService.selectSeat(infos.get(finalI));
+						assertThat(selectedSeats.keySet().size()).isEqualTo(3);
+					}
+				} finally {
+					latch.countDown();
+				}
+			});
+		}
+		latch.await();
+
 	}
 
 }
