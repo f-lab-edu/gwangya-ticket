@@ -37,7 +37,7 @@ class SeatServiceTest {
 	void setUp() {
 		performanceRepository = new InMemoryPerformanceRepository();
 		seatRepository = new InMemorySeatRepository();
-		seatService = new SeatService(seatRepository);
+		seatService = new SeatService(seatRepository, null);
 
 		performance = performanceRepository.save(createPerformance(1L));
 		performanceDetail = performanceRepository.save(
