@@ -1,13 +1,13 @@
 package com.gwangya.purchase.facade;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.gwangya.performance.exception.UnavailablePurchaseException;
 import com.gwangya.performance.service.PerformanceService;
 import com.gwangya.performance.service.SeatService;
-import com.gwangya.purchase.dto.SelectSeatInfo;
+import com.gwangya.purchase.dto.OccupySeatInfo;
 import com.gwangya.purchase.service.PurchaseService;
-import com.gwangya.user.dto.UserDto;
-import com.gwangya.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,19 +15,17 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class PurchaseFacade {
 
-	private final UserService userService;
-
 	private final PerformanceService performanceService;
 
 	private final PurchaseService purchaseService;
 
 	private final SeatService seatService;
 
-	public void selectAllSeats(final SelectSeatInfo selectSeatInfo) {
-		final UserDto userDto = userService.searchUserById(selectSeatInfo.getUserId());
-		performanceService.searchPurchasablePerformanceDetailById(selectSeatInfo.getPerformanceDetailId(),
-			userDto.getId());
-		purchaseService.checkValidSeat(selectSeatInfo);
-		seatService.selectSeat(selectSeatInfo);
+	@Transactional
+	public void occupySeats(final OccupySeatInfo occupySeatInfo) throws UnavailablePurchaseException {
+		performanceService.checkPurchasablePerformanceDetail(occupySeatInfo.getPerformanceDetailId(),
+			occupySeatInfo.getUserId());
+		purchaseService.checkValidSeat(occupySeatInfo);
+		seatService.occupySeats(occupySeatInfo);
 	}
 }
