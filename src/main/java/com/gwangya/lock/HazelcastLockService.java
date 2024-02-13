@@ -43,7 +43,10 @@ public class HazelcastLockService implements LockService {
 	public FencedLock tryLock(long time, TimeUnit unit, String key, ConcurrentMap<Long, Long> occupiedLocks) throws
 		LockOccupationException {
 		final FencedLock fencedLock = hazelcastInstance.getCPSubsystem().getLock(key);
-		if (isOccupied(occupiedLocks, fencedLock) || !fencedLock.tryLock(time, unit)) {
+
+		checkLockStatus(occupiedLocks, fencedLock);
+		boolean isSuccessfullyOccupied = fencedLock.tryLock(time, unit);
+		if (!isSuccessfullyOccupied) {
 			throw new LockOccupationException("Lock 획득에 실패했습니다.", key);
 		}
 		return fencedLock;
@@ -55,9 +58,7 @@ public class HazelcastLockService implements LockService {
 		final List<FencedLock> fencedLocks = new ArrayList<>();
 		for (String key : keys) {
 			final FencedLock fencedLock = hazelcastInstance.getCPSubsystem().getLock(String.valueOf(key));
-			if (isOccupied(occupiedLocks, fencedLock)) {
-				throw new LockOccupationException("Lock 획득에 실패했습니다.", key);
-			}
+			checkLockStatus(occupiedLocks, fencedLock);
 			fencedLocks.add(fencedLock);
 		}
 		return fencedLocks.stream()
@@ -65,8 +66,10 @@ public class HazelcastLockService implements LockService {
 			.toList();
 	}
 
-	private boolean isOccupied(final ConcurrentMap<Long, Long> occupiedLocks, final FencedLock lock) {
-		return occupiedLocks.containsKey(Long.valueOf(lock.getName())) || lock.isLocked();
+	private void checkLockStatus(final ConcurrentMap<Long, Long> occupiedLocks, final FencedLock lock) {
+		if (occupiedLocks.containsKey(Long.valueOf(lock.getName())) || lock.isLocked()) {
+			throw new LockOccupationException("Lock 획득에 실패했습니다.", lock.getName());
+		}
 	}
 
 	@Override
