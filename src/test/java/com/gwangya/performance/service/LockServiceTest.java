@@ -11,6 +11,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.gwangya.lock.HazelcastLockService;
+import com.gwangya.lock.LockService;
 import com.gwangya.performance.exception.UnavailablePurchaseException;
 import com.gwangya.performance.repository.InMemorySeatRepository;
 import com.gwangya.performance.repository.SeatRepository;
@@ -25,6 +27,8 @@ class LockServiceTest {
 
 	HazelcastInstance hazelcastInstance;
 
+	LockService lockService;
+
 	SeatService seatService;
 
 	IMap<Long, Long> selectedSeats;
@@ -35,7 +39,8 @@ class LockServiceTest {
 		hazelcastInstance = factory.newHazelcastInstance();
 		selectedSeats = hazelcastInstance.getMap("seatSession");
 		seatRepository = new InMemorySeatRepository();
-		seatService = new SeatService(seatRepository, hazelcastInstance);
+		lockService = new HazelcastLockService(hazelcastInstance);
+		seatService = new SeatService(seatRepository, lockService);
 	}
 
 	@DisplayName("n개의 좌석을 점유할 수 있다.")
