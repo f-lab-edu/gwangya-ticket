@@ -11,10 +11,21 @@ public class UnavailablePurchaseException extends RuntimeException {
 
 	private final long performanceDetailId;
 
+	private long seatId;
+
 	public UnavailablePurchaseException(String message, UnavailablePurchaseType type, long performanceDetailId) {
 		super(message);
 		this.message = message;
 		this.type = type;
 		this.performanceDetailId = performanceDetailId;
+	}
+
+	public UnavailablePurchaseException(String message, UnavailablePurchaseType type, long performanceDetailId,
+		long seatId) {
+		super(message);
+		this.message = message;
+		this.type = type;
+		this.performanceDetailId = performanceDetailId;
+		this.seatId = seatId;
 	}
 }
