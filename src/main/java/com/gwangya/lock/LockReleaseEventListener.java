@@ -1,4 +1,4 @@
-package com.gwangya.global.util;
+package com.gwangya.lock;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 
