@@ -13,16 +13,10 @@ import lombok.NoArgsConstructor;
 @Getter
 public class PurchaseSerialNumber {
 
-	private static final String TEMPORARY_SERIAL_NUMBER = "G000000-000000";
-
 	@Column(name = "purchase_serial_number", nullable = false)
 	private String number;
 
 	public static PurchaseSerialNumber of() {
 		return new PurchaseSerialNumber("");
-	}
-
-	public static PurchaseSerialNumber temporaryOf() {
-		return new PurchaseSerialNumber(TEMPORARY_SERIAL_NUMBER);
 	}
 }

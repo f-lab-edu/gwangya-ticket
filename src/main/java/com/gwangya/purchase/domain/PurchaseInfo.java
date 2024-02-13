@@ -1,7 +1,5 @@
 package com.gwangya.purchase.domain;
 
-import static com.gwangya.purchase.domain.ReceivingType.*;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,12 +62,6 @@ public class PurchaseInfo extends BaseEntity {
 		this.user = user;
 		this.receivingType = receivingType;
 		this.serialNumber = serialNumber;
-	}
-
-	public static final PurchaseInfo selectSeat(final PerformanceDetail performanceDetail, final User user) {
-		return new PurchaseInfo(performanceDetail, user, BEFORE_SELECTION, PurchaseSerialNumber.temporaryOf(),
-			LocalDateTime.now(),
-			LocalDateTime.now());
 	}
 
 	protected PurchaseInfo(Long id, PerformanceDetail performanceDetail, User user, ReceivingType receivingType,

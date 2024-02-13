@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 import com.gwangya.global.base.BaseEntity;
 import com.gwangya.performance.domain.Seat;
-import com.gwangya.user.domain.User;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -42,11 +41,6 @@ public class PurchaseSeat extends BaseEntity {
 		super(createdAt, updatedAt);
 		this.purchaseInfo = purchaseInfo;
 		this.seat = seat;
-	}
-
-	public static final PurchaseSeat selectSeat(final User user, final Seat seat) {
-		return new PurchaseSeat(PurchaseInfo.selectSeat(seat.getPerformanceDetail(), user), seat, LocalDateTime.now(),
-			LocalDateTime.now());
 	}
 
 	protected PurchaseSeat(Long id, PurchaseInfo purchaseInfo, Seat seat, LocalDateTime createdAt,
