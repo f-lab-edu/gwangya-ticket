@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Getter
-public class SelectSeatInfo {
+public class OccupySeatInfo {
 
 	private final long performanceDetailId;
 

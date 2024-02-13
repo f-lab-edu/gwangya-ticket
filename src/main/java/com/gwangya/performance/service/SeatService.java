@@ -15,7 +15,7 @@ import com.gwangya.performance.domain.Seat;
 import com.gwangya.performance.dto.SeatDto;
 import com.gwangya.performance.exception.UnavailablePurchaseException;
 import com.gwangya.performance.repository.SeatRepository;
-import com.gwangya.purchase.dto.SelectSeatInfo;
+import com.gwangya.purchase.dto.OccupySeatInfo;
 import com.hazelcast.cp.lock.FencedLock;
 import com.hazelcast.map.IMap;
 
@@ -46,27 +46,27 @@ public class SeatService {
 	}
 
 	@Transactional
-	public void selectSeat(final SelectSeatInfo selectSeatInfo) {
+	public void occupySeats(final OccupySeatInfo occupySeatInfo) {
 		final IMap<Long, Long> occupiedSeats = (IMap<Long, Long>)lockService.getLockMap(SEAT_SESSION_MAP_NAME);
 		try {
 			final List<FencedLock> validLocks = lockService.tryLockAll(3, TimeUnit.MILLISECONDS,
-				selectSeatInfo.getSeatIds().stream()
+				occupySeatInfo.getSeatIds().stream()
 					.map(seatId -> String.valueOf(seatId))
 					.toList(),
 				occupiedSeats
 			);
-			if (!isSuccessfullyOccupied(selectSeatInfo.getSeatIds(), validLocks)) {
+			if (!isSuccessfullyOccupied(occupySeatInfo.getSeatIds(), validLocks)) {
 				lockService.unlockAll(validLocks);
 				throw new UnavailablePurchaseException("이미 선택된 좌석입니다.", SELECTED_SEAT,
-					selectSeatInfo.getPerformanceDetailId());
+					occupySeatInfo.getPerformanceDetailId());
 			}
 			validLocks.forEach(lock ->
-				occupiedSeats.put(Long.valueOf(lock.getName()), selectSeatInfo.getUserId(), 5,
+				occupiedSeats.put(Long.valueOf(lock.getName()), occupySeatInfo.getUserId(), 5,
 					TimeUnit.MINUTES)
 			);
 		} catch (LockOccupationException e) {
 			throw new UnavailablePurchaseException("이미 선택된 좌석입니다.", SELECTED_SEAT,
-				selectSeatInfo.getPerformanceDetailId(), Long.valueOf(e.getName()));
+				occupySeatInfo.getPerformanceDetailId(), Long.valueOf(e.getName()));
 		}
 	}
 

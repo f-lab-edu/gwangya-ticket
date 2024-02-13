@@ -16,7 +16,7 @@ import com.gwangya.lock.LockService;
 import com.gwangya.performance.exception.UnavailablePurchaseException;
 import com.gwangya.performance.repository.InMemorySeatRepository;
 import com.gwangya.performance.repository.SeatRepository;
-import com.gwangya.purchase.dto.SelectSeatInfo;
+import com.gwangya.purchase.dto.OccupySeatInfo;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.map.IMap;
 import com.hazelcast.test.TestHazelcastInstanceFactory;
@@ -52,7 +52,7 @@ class LockServiceTest {
 		List<Long> seatIds = List.of(1L, 2L, 3L);
 
 		// when
-		seatService.selectSeat(new SelectSeatInfo(performanceDetailId, userId, seatIds));
+		seatService.occupySeats(new OccupySeatInfo(performanceDetailId, userId, seatIds));
 
 		// then
 		for (int i = 0; i < 3; i++) {
@@ -68,19 +68,19 @@ class LockServiceTest {
 	void cant_select_only_a_part_of_the_selected_seats() throws InterruptedException {
 		// given
 		long performanceDetailId = 1L;
-		SelectSeatInfo firstUser = new SelectSeatInfo(performanceDetailId, 1L, List.of(1L, 2L, 3L));
-		SelectSeatInfo secondUser = new SelectSeatInfo(performanceDetailId, 2L, List.of(2L, 3L, 4L));
+		OccupySeatInfo firstUser = new OccupySeatInfo(performanceDetailId, 1L, List.of(1L, 2L, 3L));
+		OccupySeatInfo secondUser = new OccupySeatInfo(performanceDetailId, 2L, List.of(2L, 3L, 4L));
 		int numberOfThreads = 2;
 		ExecutorService service = Executors.newFixedThreadPool(2);
 		CountDownLatch latch = new CountDownLatch(numberOfThreads);
-		List<SelectSeatInfo> infos = List.of(firstUser, secondUser);
+		List<OccupySeatInfo> infos = List.of(firstUser, secondUser);
 
 		// when
 		for (int i = 0; i < numberOfThreads; i++) {
 			int finalI = i;
 			service.submit(() -> {
 				try {
-					seatService.selectSeat(infos.get(finalI));
+					seatService.occupySeats(infos.get(finalI));
 				} finally {
 					latch.countDown();
 				}
@@ -107,12 +107,12 @@ class LockServiceTest {
 	void duplicate_requests_are_reflected_only_once() throws InterruptedException {
 		// given
 		long performanceDetailId = 1L;
-		SelectSeatInfo request = new SelectSeatInfo(performanceDetailId, 1L, List.of(1L, 2L, 3L));
-		SelectSeatInfo duplicateRequest = new SelectSeatInfo(performanceDetailId, 1L, List.of(1L, 2L, 3L));
+		OccupySeatInfo request = new OccupySeatInfo(performanceDetailId, 1L, List.of(1L, 2L, 3L));
+		OccupySeatInfo duplicateRequest = new OccupySeatInfo(performanceDetailId, 1L, List.of(1L, 2L, 3L));
 		int numberOfThreads = 2;
 		ExecutorService service = Executors.newFixedThreadPool(2);
 		CountDownLatch latch = new CountDownLatch(numberOfThreads);
-		List<SelectSeatInfo> infos = List.of(request, duplicateRequest);
+		List<OccupySeatInfo> infos = List.of(request, duplicateRequest);
 
 		// when & then
 		for (int i = 0; i < numberOfThreads; i++) {
@@ -120,12 +120,12 @@ class LockServiceTest {
 			service.submit(() -> {
 				try {
 					if (finalI == 1) {
-						assertThatThrownBy(() -> seatService.selectSeat(infos.get(finalI)))
+						assertThatThrownBy(() -> seatService.occupySeats(infos.get(finalI)))
 							.isInstanceOf(UnavailablePurchaseException.class)
 							.hasMessageContaining("이미 선택된 좌석입니다.");
 
 					} else {
-						seatService.selectSeat(infos.get(finalI));
+						seatService.occupySeats(infos.get(finalI));
 						assertThat(selectedSeats.keySet()).hasSize(3);
 					}
 				} finally {
