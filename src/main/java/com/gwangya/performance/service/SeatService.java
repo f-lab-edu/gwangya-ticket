@@ -45,6 +45,16 @@ public class SeatService {
 			.toList();
 	}
 
+	/**
+	 * 선택한 좌석에 대한 점유를 설정하는 메서드
+	 * 선택한 좌석({@link OccupySeatInfo#getSeatIds()})에 대해 {@link FencedLock}획득이 모두 성공하면,
+	 * {@link IMap}에 저장됩니다.(5분 간 유효)
+	 * <li>occupiedSeats.key : 좌석(Seat.id)</li>
+	 * <li>occupiedSeats.value : 유저(User.id)</li>
+	 * Lock 획득이 하나라도 실패하면 획득한 Lock을 모두 반납하고 {@link UnavailablePurchaseException}을 던집니다.
+	 *
+	 * @param occupySeatInfo
+	 */
 	@Transactional
 	public void occupySeats(final OccupySeatInfo occupySeatInfo) {
 		final IMap<Long, Long> occupiedSeats = (IMap<Long, Long>)lockService.getLockMap(SEAT_SESSION_MAP_NAME);
