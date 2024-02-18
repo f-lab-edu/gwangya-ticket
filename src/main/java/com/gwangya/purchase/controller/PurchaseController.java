@@ -19,7 +19,7 @@ public class PurchaseController {
 	private final PurchaseFacade purchaseFacade;
 
 	@PostMapping("/api/v1/performance/{performanceDetailId}/seat")
-	public ResponseEntity<Void> selectSeat(@PathVariable long performanceDetailId,
+	public ResponseEntity<Void> occupySeat(@PathVariable long performanceDetailId,
 		@RequestAttribute(name = "userId") long userId, CreateOccupySeatCommand createOccupySeatCommand) {
 		purchaseFacade.occupySeats(
 			new OccupySeatInfo(performanceDetailId, userId, createOccupySeatCommand.getSeatIds()));
