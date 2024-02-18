@@ -26,7 +26,7 @@ public class HazelcastLockService implements LockService {
 	private final HazelcastInstance hazelcastInstance;
 
 	@PostConstruct
-	private void initializeListeners(HazelcastInstance hazelcastInstance) {
+	private void initializeListeners() {
 		hazelcastInstance.getMap(SEAT_SESSION_MAP_NAME)
 			.addEntryListener(
 				new LockReleaseEventListener(hazelcastInstance),
