@@ -2,4 +2,4 @@ hazelcast-client:
   cluster-name: gwangya-1
   network:
     cluster-members:
-      - localhost
+      - 223.130.131.129:5701

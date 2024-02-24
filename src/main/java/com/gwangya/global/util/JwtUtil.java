@@ -26,7 +26,7 @@ import io.jsonwebtoken.security.Keys;
 
 @Component
 @PropertySources(value = {
-	@PropertySource(value = "application-local.yml"),
+	@PropertySource(value = "application.yml"),
 	@PropertySource(value = "application-prod.yml")
 })
 public final class JwtUtil {
