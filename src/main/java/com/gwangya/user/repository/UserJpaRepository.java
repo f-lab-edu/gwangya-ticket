@@ -9,7 +9,7 @@ import com.gwangya.user.domain.vo.Email;
 
 public interface UserJpaRepository extends JpaRepository<User, Long> {
 
-	boolean existsUserByEmail(String email);
+	boolean existsUserByEmail(Email email);
 
 	Optional<User> findByEmail(Email email);
 }

@@ -5,6 +5,7 @@ import static org.springframework.http.HttpHeaders.*;
 
 import java.io.IOException;
 
+import org.springframework.http.HttpMethod;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.util.ObjectUtils;
@@ -54,6 +55,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 		} catch (InvalidTokenException exception) {
 			accessDeniedHandler.handle(request, response, exception);
 		}
+	}
+
+	@Override
+	protected boolean shouldNotFilter(HttpServletRequest request) {
+		return request.getRequestURI().equals("/api/v1/user") && request.getMethod().equals(HttpMethod.POST.name());
 	}
 
 	private void validateAccessToken(final String token) {
