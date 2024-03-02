@@ -15,8 +15,10 @@ import com.gwangya.performance.domain.Seat;
 import com.gwangya.performance.dto.SeatDto;
 import com.gwangya.performance.exception.UnavailablePurchaseException;
 import com.gwangya.performance.repository.SeatRepository;
+import com.gwangya.purchase.domain.LockInfo;
 import com.gwangya.purchase.dto.OccupySeatInfo;
 import com.hazelcast.cp.lock.FencedLock;
+import com.hazelcast.internal.util.ThreadUtil;
 import com.hazelcast.map.IMap;
 
 import lombok.RequiredArgsConstructor;
@@ -57,7 +59,7 @@ public class SeatService {
 	 */
 	@Transactional
 	public void occupySeats(final OccupySeatInfo occupySeatInfo) {
-		final IMap<Long, Long> occupiedSeats = (IMap<Long, Long>)lockService.getLockMap(SEAT_SESSION_MAP_NAME);
+		final IMap<Long, LockInfo> occupiedSeats = (IMap<Long, LockInfo>)lockService.getLockMap(SEAT_SESSION_MAP_NAME);
 		try {
 			final List<FencedLock> validLocks = lockService.tryLockAll(3, TimeUnit.MILLISECONDS,
 				occupySeatInfo.getSeatIds().stream()
@@ -71,7 +73,8 @@ public class SeatService {
 					occupySeatInfo.getPerformanceDetailId());
 			}
 			validLocks.forEach(lock ->
-				occupiedSeats.put(Long.valueOf(lock.getName()), occupySeatInfo.getUserId(), 5,
+				occupiedSeats.put(Long.valueOf(lock.getName()),
+					new LockInfo(occupySeatInfo.getUserId(), ThreadUtil.getThreadId()), 5,
 					TimeUnit.MINUTES)
 			);
 		} catch (LockOccupationException e) {

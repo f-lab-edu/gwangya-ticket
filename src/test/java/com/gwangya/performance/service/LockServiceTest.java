@@ -16,6 +16,7 @@ import com.gwangya.lock.LockService;
 import com.gwangya.performance.exception.UnavailablePurchaseException;
 import com.gwangya.performance.repository.InMemorySeatRepository;
 import com.gwangya.performance.repository.SeatRepository;
+import com.gwangya.purchase.domain.LockInfo;
 import com.gwangya.purchase.dto.OccupySeatInfo;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.map.IMap;
@@ -31,7 +32,7 @@ class LockServiceTest {
 
 	SeatService seatService;
 
-	IMap<Long, Long> selectedSeats;
+	IMap<Long, LockInfo> selectedSeats;
 
 	@BeforeEach
 	void setUp() {
@@ -58,7 +59,7 @@ class LockServiceTest {
 		for (int i = 0; i < 3; i++) {
 			long key = seatIds.get(i);
 			assertThat(selectedSeats.containsKey(key)).isTrue();
-			assertThat(selectedSeats.get(key)).isEqualTo(userId);
+			assertThat(selectedSeats.get(key).getUserId()).isEqualTo(userId);
 		}
 
 	}
@@ -91,14 +92,14 @@ class LockServiceTest {
 		// then
 		assertThat(selectedSeats.values()).hasSize(3);
 		if (selectedSeats.containsKey(1L)) {
-			assertThat(selectedSeats.get(1L)).isEqualTo(firstUser.getUserId());
-			assertThat(selectedSeats.get(2L)).isEqualTo(firstUser.getUserId());
-			assertThat(selectedSeats.get(3L)).isEqualTo(firstUser.getUserId());
+			assertThat(selectedSeats.get(1L).getUserId()).isEqualTo(firstUser.getUserId());
+			assertThat(selectedSeats.get(2L).getUserId()).isEqualTo(firstUser.getUserId());
+			assertThat(selectedSeats.get(3L).getUserId()).isEqualTo(firstUser.getUserId());
 		}
 		if (selectedSeats.containsKey(4L)) {
-			assertThat(selectedSeats.get(2L)).isEqualTo(secondUser.getUserId());
-			assertThat(selectedSeats.get(3L)).isEqualTo(secondUser.getUserId());
-			assertThat(selectedSeats.get(4L)).isEqualTo(secondUser.getUserId());
+			assertThat(selectedSeats.get(2L).getUserId()).isEqualTo(secondUser.getUserId());
+			assertThat(selectedSeats.get(3L).getUserId()).isEqualTo(secondUser.getUserId());
+			assertThat(selectedSeats.get(4L).getUserId()).isEqualTo(secondUser.getUserId());
 		}
 	}
 
