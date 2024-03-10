@@ -52,7 +52,7 @@ public class SeatService {
 	 * 선택한 좌석({@link OccupySeatInfo#getSeatIds()})에 대해 {@link FencedLock}획득이 모두 성공하면,
 	 * {@link IMap}에 저장됩니다.(5분 간 유효)
 	 * <li>occupiedSeats.key : 좌석(Seat.id)</li>
-	 * <li>occupiedSeats.value : 유저(User.id)</li>
+	 * <li>occupiedSeats.value : LockInfo(유저 PK, Thread id)</li>
 	 * Lock 획득이 하나라도 실패하면 획득한 Lock을 모두 반납하고 {@link UnavailablePurchaseException}을 던집니다.
 	 *
 	 * @param occupySeatInfo
