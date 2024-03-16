@@ -19,6 +19,7 @@ import com.gwangya.performance.repository.SeatRepository;
 import com.gwangya.purchase.domain.LockInfo;
 import com.gwangya.purchase.dto.OccupySeatInfo;
 import com.hazelcast.core.HazelcastInstance;
+import com.hazelcast.cp.lock.FencedLock;
 import com.hazelcast.map.IMap;
 import com.hazelcast.test.TestHazelcastInstanceFactory;
 
@@ -136,6 +137,36 @@ class LockServiceTest {
 		}
 		latch.await();
 
+	}
+
+	@DisplayName("이미 lock이 걸린 경우 예외가 발생한다.")
+	@Test
+	void if_seat_of_request_is_already_locked_then_exception_is_thrown() {
+		// given
+		long lockedSeatId = 1L;
+		OccupySeatInfo request = new OccupySeatInfo(1, 1, List.of(lockedSeatId));
+		FencedLock lock = hazelcastInstance.getCPSubsystem().getLock(String.valueOf(lockedSeatId));
+		lock.lock();
+
+		// when & then
+		assertThatThrownBy(() -> seatService.occupySeats(request))
+			.isInstanceOf(UnavailablePurchaseException.class)
+			.hasMessageContaining("이미 선택된 좌석입니다.");
+	}
+
+	@DisplayName("다른 요청에서 점유한 좌석일 경우 예외가 발생한다.")
+	@Test
+	void if_the_seat_is_occupied_by_another_request_then_exception_is_thrown() {
+		// given
+		long occupiedSeatId = 1L;
+		long anotherUserId = 2L;
+		selectedSeats.put(occupiedSeatId, new LockInfo(anotherUserId, 99));
+		OccupySeatInfo request = new OccupySeatInfo(1, 1, List.of(occupiedSeatId));
+
+		// when & then
+		assertThatThrownBy(() -> seatService.occupySeats(request))
+			.isInstanceOf(UnavailablePurchaseException.class)
+			.hasMessageContaining("이미 선택된 좌석입니다.");
 	}
 
 }
