@@ -21,6 +21,7 @@ public class HazelcastTestConfig {
 		config.setClusterName("gwangya-1");
 
 		ClientNetworkConfig networkConfig = new ClientNetworkConfig();
+		config.setProperty("hazelcast.clientengine.thread.count", "100");
 		networkConfig.addAddress("223.130.131.129:5701");
 		networkConfig.addAddress("223.130.131.129:5702");
 		networkConfig.addAddress("223.130.131.129:5703");
