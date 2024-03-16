@@ -3,7 +3,6 @@ package com.gwangya.purchase.facade;
 import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.gwangya.performance.domain.PerformanceDetail;
 import com.gwangya.performance.exception.UnavailablePurchaseException;
@@ -38,7 +37,6 @@ public class PurchaseFacade {
 	 * @throws UnavailablePurchaseException
 	 * @see SeatService#occupySeats(OccupySeatInfo)
 	 */
-	@Transactional
 	public void occupySeats(final OccupySeatInfo occupySeatInfo) throws UnavailablePurchaseException {
 		performanceService.checkPurchasablePerformanceDetail(occupySeatInfo.getPerformanceDetailId(),
 			occupySeatInfo.getUserId());
