@@ -3,6 +3,7 @@ package com.gwangya.performance.service;
 import static com.gwangya.lock.HazelcastLockService.*;
 import static com.gwangya.performance.exception.UnavailablePurchaseType.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -16,6 +17,7 @@ import com.gwangya.performance.dto.SeatDto;
 import com.gwangya.performance.exception.UnavailablePurchaseException;
 import com.gwangya.performance.repository.SeatRepository;
 import com.gwangya.purchase.domain.LockInfo;
+import com.gwangya.purchase.dto.OccupySeatDto;
 import com.gwangya.purchase.dto.OccupySeatInfo;
 import com.hazelcast.cp.lock.FencedLock;
 import com.hazelcast.internal.util.ThreadUtil;
@@ -57,8 +59,8 @@ public class SeatService {
 	 *
 	 * @param occupySeatInfo
 	 */
-	@Transactional
-	public void occupySeats(final OccupySeatInfo occupySeatInfo) {
+	public OccupySeatDto occupySeats(final OccupySeatInfo occupySeatInfo) {
+		final List<Long> occupySeats = new ArrayList<>();
 		final IMap<Long, LockInfo> occupiedSeats = (IMap<Long, LockInfo>)lockService.getLockMap(SEAT_SESSION_MAP_NAME);
 		try {
 			final List<FencedLock> validLocks = lockService.tryLockAll(3, TimeUnit.MILLISECONDS,
@@ -72,11 +74,15 @@ public class SeatService {
 				throw new UnavailablePurchaseException("이미 선택된 좌석입니다.", SELECTED_SEAT,
 					occupySeatInfo.getPerformanceDetailId());
 			}
-			validLocks.forEach(lock ->
-				occupiedSeats.put(Long.valueOf(lock.getName()),
-					new LockInfo(occupySeatInfo.getUserId(), ThreadUtil.getThreadId()), 5,
-					TimeUnit.MINUTES)
+			validLocks.forEach(lock -> {
+					final Long seatId = Long.valueOf(lock.getName());
+					occupiedSeats.put(seatId,
+						new LockInfo(occupySeatInfo.getUserId(), ThreadUtil.getThreadId()), 5,
+						TimeUnit.MINUTES);
+					occupySeats.add(seatId);
+				}
 			);
+			return new OccupySeatDto(occupySeats);
 		} catch (LockOccupationException e) {
 			throw new UnavailablePurchaseException("이미 선택된 좌석입니다.", SELECTED_SEAT,
 				occupySeatInfo.getPerformanceDetailId(), Long.valueOf(e.getName()));
