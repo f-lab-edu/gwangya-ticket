@@ -1,11 +1,12 @@
 package com.gwangya.performance.domain;
 
+import static com.gwangya.performance.exception.UnavailablePurchaseType.*;
+
 import java.time.LocalDateTime;
 
 import com.gwangya.global.base.BaseEntity;
 import com.gwangya.performance.exception.UnavailablePurchaseException;
 import com.gwangya.purchase.domain.PurchaseType;
-import com.gwangya.purchase.repository.PurchaseRepository;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -73,15 +74,13 @@ public class PerformanceDetail extends BaseEntity {
 
 	public void checkPurchasePeriod(final LocalDateTime now) {
 		if (now.isBefore(ticketingStartTime) || now.isAfter(ticketingCloseTime)) {
-			throw new UnavailablePurchaseException("예매 가능 기간이 아닙니다.");
+			throw new UnavailablePurchaseException("예매 가능 기간이 아닙니다.", NOT_PURCHASE_PERIOD, this.id);
 		}
 	}
 
-	// Todo 피드백이후 수정하기
-	public void checkTicketLimit(final PurchaseRepository purchaseRepository, final Long userId) {
-		long purchasedCount = purchaseRepository.countPurchasedSeat(this, userId);
+	public void checkTicketLimit(final long purchasedCount) {
 		if (purchasedCount >= limitCount) {
-			throw new UnavailablePurchaseException("예매 가능 매수를 초과했습니다.");
+			throw new UnavailablePurchaseException("예매 가능 매수를 초과했습니다.", EXCEED_PURCHASE_LIMITS, this.id);
 		}
 	}
 }

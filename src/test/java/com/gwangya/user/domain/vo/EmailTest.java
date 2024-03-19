@@ -1,8 +1,7 @@
 package com.gwangya.user.domain.vo;
 
+import static com.gwangya.user.domain.UserFixture.*;
 import static org.assertj.core.api.Assertions.*;
-
-import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -24,8 +23,7 @@ class EmailTest {
 	@BeforeEach
 	void setUp() {
 		userRepository = new InMemoryUserRepository();
-		User user = new User(1L, new Email(existedEmail), new Password("Password123!"), LocalDateTime.now(),
-			LocalDateTime.now());
+		User user = createUser(1L, existedEmail, "Password123!");
 		userRepository.save(user);
 	}
 

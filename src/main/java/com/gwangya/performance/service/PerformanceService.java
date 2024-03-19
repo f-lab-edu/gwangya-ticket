@@ -23,12 +23,14 @@ public class PerformanceService {
 
 	@Transactional(readOnly = true)
 	public PerformanceDetailDto searchPurchasablePerformanceDetailById(final long detailId, final long userId) {
-		PerformanceDetail performanceDetail = performanceRepository.findPerformanceDetailById(detailId)
+		final PerformanceDetail performanceDetail = performanceRepository.findPerformanceDetailById(detailId)
 			.orElseThrow(
-				() -> new EntityNotFoundException("존재하지 않는 공연입니다.", PerformanceDetail.class, detailId, userId));
-
+				() -> new EntityNotFoundException("존재하지 않는 공연입니다.", PerformanceDetail.class, detailId, userId)
+			);
 		performanceDetail.checkPurchasePeriod(LocalDateTime.now());
-		performanceDetail.checkTicketLimit(purchaseRepository, userId);
+
+		final long purchasedCount = purchaseRepository.countPurchasedSeat(performanceDetail, userId);
+		performanceDetail.checkTicketLimit(purchasedCount);
 
 		return new PerformanceDetailDto(
 			performanceDetail.getId(),
@@ -37,5 +39,17 @@ public class PerformanceService {
 			performanceDetail.getTicketingStartTime(),
 			performanceDetail.getTicketingCloseTime()
 		);
+	}
+
+	@Transactional(readOnly = true)
+	public void checkPurchasablePerformanceDetail(final long detailId, final long userId) {
+		final PerformanceDetail performanceDetail = performanceRepository.findPerformanceDetailById(detailId)
+			.orElseThrow(
+				() -> new EntityNotFoundException("존재하지 않는 공연입니다.", PerformanceDetail.class, detailId, userId)
+			);
+		performanceDetail.checkPurchasePeriod(LocalDateTime.now());
+
+		final long purchasedCount = purchaseRepository.countPurchasedSeat(performanceDetail, userId);
+		performanceDetail.checkTicketLimit(purchasedCount);
 	}
 }

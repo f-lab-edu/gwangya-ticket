@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.gwangya.global.base.ExceptionResponse;
 import com.gwangya.global.exception.EntityNotFoundException;
+import com.gwangya.performance.exception.UnavailablePurchaseException;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -15,7 +16,7 @@ import lombok.extern.log4j.Log4j2;
 public class GlobalExceptionHandler {
 
 	@ExceptionHandler(EntityNotFoundException.class)
-	public ResponseEntity<?> handleEntityException(EntityNotFoundException exception) {
+	public ResponseEntity<ExceptionResponse> handleEntityException(EntityNotFoundException exception) {
 		log.info("Message : {}, Entity : {}, RequestId : {}, Request : {}, RequestUserId : {}",
 			exception.getMessage(),
 			exception.getEntityType(),
@@ -29,8 +30,20 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
 	}
 
+	@ExceptionHandler(UnavailablePurchaseException.class)
+	public ResponseEntity<ExceptionResponse> handlePurchaseException(UnavailablePurchaseException exception) {
+		log.info("Type : {}, Performance Detail PK : {}",
+			exception.getType(),
+			exception.getPerformanceDetailId()
+		);
+		ExceptionResponse exceptionResponse = ExceptionResponse.builder()
+			.message(exception.getMessage())
+			.build();
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(exceptionResponse);
+	}
+
 	@ExceptionHandler({IllegalArgumentException.class})
-	public ResponseEntity<?> handleClientException(RuntimeException exception) {
+	public ResponseEntity<ExceptionResponse> handleClientException(RuntimeException exception) {
 		log.info(exception.getMessage());
 		ExceptionResponse exceptionResponse = ExceptionResponse.builder()
 			.message(exception.getMessage())
@@ -39,7 +52,7 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler({RuntimeException.class})
-	public ResponseEntity<?> handleRuntimeException(RuntimeException exception) {
+	public ResponseEntity<ExceptionResponse> handleRuntimeException(RuntimeException exception) {
 		log.info(exception.getMessage());
 		ExceptionResponse exceptionResponse = ExceptionResponse.builder()
 			.message(exception.getMessage())
@@ -48,7 +61,7 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler({Exception.class})
-	public ResponseEntity<?> handleServerException(Exception exception) {
+	public ResponseEntity<ExceptionResponse> handleServerException(Exception exception) {
 		log.info(exception.getMessage());
 		ExceptionResponse exceptionResponse = ExceptionResponse.builder()
 			.message(exception.getMessage())

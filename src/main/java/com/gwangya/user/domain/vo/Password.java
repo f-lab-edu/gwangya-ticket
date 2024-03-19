@@ -14,7 +14,7 @@ import lombok.Getter;
 @Getter
 public class Password {
 
-	private static final String PASSWORD_REGEX = "^(?=.*[a-z][A-Z])(?=.*\\d)(?=.*[!@#$%^&*()\\-=_+{}\\:;'\"|\\\\<>,./?]).{8,20}$";
+	private static final String PASSWORD_REGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()\\-=_+{}\\:;'\"|\\\\<>,./?]).{8,20}$";
 	private static final Pattern pattern = Pattern.compile(PASSWORD_REGEX);
 
 	@Column(name = "password", nullable = false)

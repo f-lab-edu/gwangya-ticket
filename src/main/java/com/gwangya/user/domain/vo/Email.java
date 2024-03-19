@@ -50,7 +50,7 @@ public class Email {
 	}
 
 	private static void checkDuplicateEmail(final String email, final UserRepository userRepository) {
-		if (userRepository.existsUserByEmail(email)) {
+		if (userRepository.existsUserByEmail(new Email(email))) {
 			throw new IllegalArgumentException("중복된 이메일 입니다.");
 		}
 	}

@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/gwangya
+    url: jdbc:mysql://db-ln9jk-kr.vpc-pub-cdb.ntruss.com:3306/gwangya
     username:
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -8,5 +8,5 @@ spring:
     show-sql: true
 jwt:
   duration:
-    access: 180
-    refresh: 190
+    access: 3600
+    refresh: 259200

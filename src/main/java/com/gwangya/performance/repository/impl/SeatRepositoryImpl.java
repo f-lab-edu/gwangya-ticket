@@ -14,6 +14,8 @@ import com.gwangya.performance.repository.SeatRepository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
+import jakarta.annotation.Nonnull;
+
 @Repository
 public class SeatRepositoryImpl implements SeatRepository {
 
@@ -36,6 +38,11 @@ public class SeatRepositoryImpl implements SeatRepository {
 			.join(seat.performanceDetail, performanceDetail).fetchJoin()
 			.join(purchaseSeat).on(purchaseSeat.seat.eq(seat))
 			.fetch();
+	}
+
+	@Override
+	public List<Seat> findAllById(@Nonnull List<Long> seatIds) {
+		return jpaRepository.findAllById(seatIds);
 	}
 
 	private BooleanExpression performanceDetailIdEq(final long detailId) {
