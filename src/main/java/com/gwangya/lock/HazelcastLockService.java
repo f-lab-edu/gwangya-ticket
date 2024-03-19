@@ -45,8 +45,7 @@ public class HazelcastLockService implements LockService {
 		final FencedLock fencedLock = hazelcastInstance.getCPSubsystem().getLock(key);
 
 		checkLockStatus(occupiedLocks, fencedLock);
-		boolean isSuccessfullyOccupied = fencedLock.tryLock(time, unit);
-		if (!isSuccessfullyOccupied) {
+		if (!fencedLock.tryLock(time, unit)) {
 			throw new LockOccupationException("Lock 획득에 실패했습니다.", key);
 		}
 		return fencedLock;
