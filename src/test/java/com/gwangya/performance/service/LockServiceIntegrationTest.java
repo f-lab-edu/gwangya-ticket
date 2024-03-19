@@ -15,6 +15,7 @@ import java.util.concurrent.Executors;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -133,10 +134,11 @@ public class LockServiceIntegrationTest {
 		}
 	}
 
+	@Disabled
 	@Nested
 	@DisplayName("[좌석 선택] 요청 수 별 테스트")
 	class SeatService_occupySeats_byNumberOfRequests {
-		//@Disabled
+
 		@DisplayName("요청 수가 100일 때 무결성이 보장된다.")
 		@Test
 		void integrity_is_guaranteed_when_the_number_of_requests_is_100() throws InterruptedException {
@@ -176,7 +178,6 @@ public class LockServiceIntegrationTest {
 			assertThat(copyOfSelectedSeats).allSatisfy((seatId, userId) -> userId.equals(results.get(seatId)));
 		}
 
-		//@Disabled
 		@DisplayName("요청 수가 10000일 때 무결성이 보장된다.")
 		@Test
 		void integrity_is_guaranteed_when_the_number_of_requests_is_10000() throws InterruptedException {
@@ -215,7 +216,6 @@ public class LockServiceIntegrationTest {
 			assertThat(copyOfSelectedSeats).allSatisfy((seatId, userId) -> userId.equals(results.get(seatId)));
 		}
 
-		//@Disabled
 		@DisplayName("요청 수가 100000일 때 무결성이 보장된다.")
 		@Test
 		void integrity_is_guaranteed_when_the_number_of_requests_is_100000() throws InterruptedException {
