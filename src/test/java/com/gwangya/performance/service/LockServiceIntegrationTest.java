@@ -32,6 +32,7 @@ import com.gwangya.purchase.domain.LockInfo;
 import com.gwangya.purchase.dto.OccupySeatDto;
 import com.gwangya.purchase.dto.OccupySeatInfo;
 import com.hazelcast.core.HazelcastInstance;
+import com.hazelcast.internal.util.ThreadUtil;
 import com.hazelcast.map.IMap;
 
 @SpringBootTest(classes = {HazelcastTestConfig.class, JpaTestConfig.class, HazelcastLockService.class,
@@ -62,6 +63,12 @@ public class LockServiceIntegrationTest {
 
 	@AfterEach
 	void tearDown() {
+		selectedSeats.forEach(entry -> {
+			if (!Objects.isNull(entry.getValue())) {
+				ThreadUtil.setThreadId(entry.getValue().getThreadId());
+				hazelcastLockService.unlock(String.valueOf(entry.getKey()));
+			}
+		});
 		selectedSeats.clear();
 	}
 
@@ -75,7 +82,7 @@ public class LockServiceIntegrationTest {
 			// given
 			ExecutorService service = Executors.newFixedThreadPool(2);
 			CountDownLatch latch = new CountDownLatch(2);
-			long seatId = 1L;
+			long seatId = 15000L;
 			OccupySeatInfo request = new OccupySeatInfo(1, 1, List.of(seatId));
 			OccupySeatInfo anotherRequest = new OccupySeatInfo(1, 2, List.of(seatId));
 
@@ -129,6 +136,7 @@ public class LockServiceIntegrationTest {
 	@Nested
 	@DisplayName("[좌석 선택] 요청 수 별 테스트")
 	class SeatService_occupySeats_byNumberOfRequests {
+		//@Disabled
 		@DisplayName("요청 수가 100일 때 무결성이 보장된다.")
 		@Test
 		void integrity_is_guaranteed_when_the_number_of_requests_is_100() throws InterruptedException {
@@ -168,6 +176,7 @@ public class LockServiceIntegrationTest {
 			assertThat(copyOfSelectedSeats).allSatisfy((seatId, userId) -> userId.equals(results.get(seatId)));
 		}
 
+		//@Disabled
 		@DisplayName("요청 수가 10000일 때 무결성이 보장된다.")
 		@Test
 		void integrity_is_guaranteed_when_the_number_of_requests_is_10000() throws InterruptedException {
@@ -206,6 +215,7 @@ public class LockServiceIntegrationTest {
 			assertThat(copyOfSelectedSeats).allSatisfy((seatId, userId) -> userId.equals(results.get(seatId)));
 		}
 
+		//@Disabled
 		@DisplayName("요청 수가 100000일 때 무결성이 보장된다.")
 		@Test
 		void integrity_is_guaranteed_when_the_number_of_requests_is_100000() throws InterruptedException {
