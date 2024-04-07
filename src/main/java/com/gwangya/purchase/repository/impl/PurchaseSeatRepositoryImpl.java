@@ -3,6 +3,7 @@ package com.gwangya.purchase.repository.impl;
 import static com.gwangya.purchase.domain.QPurchaseSeat.*;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.stereotype.Repository;
 
@@ -26,14 +27,13 @@ public class PurchaseSeatRepositoryImpl implements PurchaseSeatRepository {
 
 	@Override
 	public boolean existsAnyBySeat(@Nonnull List<Seat> seats) {
-		return queryFactory.select(purchaseSeat.id)
+		Long result = queryFactory.select(purchaseSeat.id)
 			.from(purchaseSeat)
 			.where(
 				seatIn(seats)
 			)
-			.fetchOne()
-			.describeConstable()
-			.isPresent();
+			.fetchOne();
+		return !Objects.isNull(result);
 	}
 
 	@Override
