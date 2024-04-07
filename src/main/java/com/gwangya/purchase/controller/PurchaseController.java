@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gwangya.purchase.dto.CreateOccupySeatCommand;
@@ -30,9 +30,10 @@ public class PurchaseController {
 
 	@PostMapping("/api/v1/performance/{performanceDetailId}/seat/test")
 	public ResponseEntity<OccupySeatDto> occupySeatForTest(@PathVariable long performanceDetailId,
-		@RequestParam(name = "userId") long userId, CreateOccupySeatCommand createOccupySeatCommand) {
+		@RequestBody CreateOccupySeatCommand createOccupySeatCommand) {
 		OccupySeatDto result = purchaseFacade.occupySeats(
-			new OccupySeatInfo(performanceDetailId, userId, createOccupySeatCommand.getSeatIds()));
+			new OccupySeatInfo(performanceDetailId, createOccupySeatCommand.getUserId(),
+				createOccupySeatCommand.getSeatIds()));
 		return ResponseEntity.ok(result);
 	}
 }

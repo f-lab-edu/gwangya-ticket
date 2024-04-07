@@ -9,5 +9,6 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public class CreateOccupySeatCommand {
 
+	private final Long userId;
 	private final List<Long> seatIds;
 }
