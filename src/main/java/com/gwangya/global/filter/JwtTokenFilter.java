@@ -59,6 +59,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) {
+		if (request.getRequestURI().contains("/test") && request.getMethod().equals(HttpMethod.POST.name())) {
+			return true;
+		}
 		return request.getRequestURI().equals("/api/v1/user") && request.getMethod().equals(HttpMethod.POST.name());
 	}
 

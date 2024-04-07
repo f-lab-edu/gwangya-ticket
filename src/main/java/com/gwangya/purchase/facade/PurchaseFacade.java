@@ -9,6 +9,7 @@ import com.gwangya.performance.exception.UnavailablePurchaseException;
 import com.gwangya.performance.service.PerformanceService;
 import com.gwangya.performance.service.SeatService;
 import com.gwangya.purchase.domain.PurchaseSeat;
+import com.gwangya.purchase.dto.OccupySeatDto;
 import com.gwangya.purchase.dto.OccupySeatInfo;
 import com.gwangya.purchase.service.PurchaseService;
 
@@ -37,10 +38,10 @@ public class PurchaseFacade {
 	 * @throws UnavailablePurchaseException
 	 * @see SeatService#occupySeats(OccupySeatInfo)
 	 */
-	public void occupySeats(final OccupySeatInfo occupySeatInfo) throws UnavailablePurchaseException {
+	public OccupySeatDto occupySeats(final OccupySeatInfo occupySeatInfo) throws UnavailablePurchaseException {
 		performanceService.checkPurchasablePerformanceDetail(occupySeatInfo.getPerformanceDetailId(),
 			occupySeatInfo.getUserId());
 		purchaseService.checkValidSeat(occupySeatInfo);
-		seatService.occupySeats(occupySeatInfo);
+		return seatService.occupySeats(occupySeatInfo);
 	}
 }
