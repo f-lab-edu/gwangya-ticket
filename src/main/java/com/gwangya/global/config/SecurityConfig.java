@@ -54,7 +54,8 @@ public class SecurityConfig {
 			.addFilterAt(new JwtTokenFilter(authService, accessDeniedHandler()),
 				UsernamePasswordAuthenticationFilter.class)
 			.authorizeHttpRequests(
-				requestMatcher -> requestMatcher.requestMatchers(HttpMethod.POST, "/api/v1/user", "/api/v1/auth")
+				requestMatcher -> requestMatcher.requestMatchers(HttpMethod.POST, "/api/v1/user", "/api/v1/auth",
+						"/api/v1/performance/{performanceDetailId}/seat/test")
 					.permitAll()
 					.anyRequest().authenticated())
 			.build();
