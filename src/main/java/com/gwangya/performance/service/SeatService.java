@@ -3,8 +3,11 @@ package com.gwangya.performance.service;
 import static com.gwangya.lock.HazelcastLockService.*;
 import static com.gwangya.performance.exception.UnavailablePurchaseType.*;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.stereotype.Service;
@@ -13,7 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gwangya.lock.LockService;
 import com.gwangya.lock.exception.LockOccupationException;
 import com.gwangya.performance.domain.Seat;
+import com.gwangya.performance.dto.OccupancyInfoCondition;
 import com.gwangya.performance.dto.SeatDto;
+import com.gwangya.performance.dto.SeatOccupancyInfo;
 import com.gwangya.performance.exception.UnavailablePurchaseException;
 import com.gwangya.performance.repository.SeatRepository;
 import com.gwangya.purchase.domain.LockInfo;
@@ -94,5 +99,24 @@ public class SeatService {
 			.map(lock -> Long.valueOf(lock.getName()))
 			.toList();
 		return lockNames.containsAll(selectSeats);
+	}
+
+	@Transactional(readOnly = true)
+	public SeatOccupancyInfo searchSeatOccupancyInfo(final OccupancyInfoCondition occupancyInfoCondition) {
+		final IMap<Long, LockInfo> occupiedSeats = (IMap<Long, LockInfo>)lockService.getLockMap(SEAT_SESSION_MAP_NAME);
+		final List<Long> occupancySeats = occupiedSeats.entrySet().stream()
+			.filter(occupancyInfo -> occupancyInfo.getValue().getUserId() == occupancyInfoCondition.getUserId())
+			.map(Map.Entry::getKey)
+			.toList();
+		final long totalSeatCount = seatRepository.countAllByPerformanceDetailId(
+			occupancyInfoCondition.getPerformanceDetailId());
+		return new SeatOccupancyInfo(occupancyInfoCondition.getUserId(), occupancySeats,
+			calculateOccupancyRate(occupancySeats.size(), totalSeatCount));
+	}
+
+	private double calculateOccupancyRate(final long occupancySeatCount, final long totalSeatCount) {
+		return BigDecimal.valueOf(occupancySeatCount)
+			.divide(BigDecimal.valueOf(totalSeatCount), 2, RoundingMode.HALF_UP)
+			.doubleValue();
 	}
 }
