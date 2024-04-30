@@ -3,12 +3,12 @@ package com.gwangya.purchase.dto;
 import java.util.List;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Getter
 public class CreateOccupySeatCommand {
 
-	private final Long userId;
-	private final List<Long> seatIds;
+	private Long userId;
+	private List<Long> seatIds;
 }

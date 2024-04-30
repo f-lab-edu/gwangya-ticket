@@ -10,4 +10,5 @@ import lombok.RequiredArgsConstructor;
 public class OccupySeatDto {
 
 	private final List<Long> seatIds;
+	private final long occupancySeatCount;
 }

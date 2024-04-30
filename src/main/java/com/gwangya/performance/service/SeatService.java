@@ -87,7 +87,7 @@ public class SeatService {
 					occupySeats.add(seatId);
 				}
 			);
-			return new OccupySeatDto(occupySeats);
+			return new OccupySeatDto(occupySeats, occupiedSeats.size());
 		} catch (LockOccupationException e) {
 			throw new UnavailablePurchaseException("이미 선택된 좌석입니다.", SELECTED_SEAT,
 				occupySeatInfo.getPerformanceDetailId(), Long.valueOf(e.getName()));
