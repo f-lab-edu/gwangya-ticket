@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.gwangya.performance.domain.PerformanceDetail;
 import com.gwangya.performance.domain.Seat;
 import com.gwangya.performance.repository.SeatJpaRepository;
 import com.gwangya.performance.repository.SeatRepository;
@@ -43,6 +44,22 @@ public class SeatRepositoryImpl implements SeatRepository {
 	@Override
 	public List<Seat> findAllById(@Nonnull List<Long> seatIds) {
 		return jpaRepository.findAllById(seatIds);
+	}
+
+	@Override
+	public List<Seat> findAllByPerformanceDetail(PerformanceDetail performanceDetail) {
+		return jpaRepository.findAllByPerformanceDetail(performanceDetail);
+	}
+
+	@Override
+	public long countAllByPerformanceDetailId(long performanceDetailId) {
+		return jpaQueryFactory.select(seat)
+			.where(
+				performanceDetailIdEq(performanceDetailId)
+			)
+			.join(seat.performanceDetail, performanceDetail)
+			.fetch()
+			.size();
 	}
 
 	private BooleanExpression performanceDetailIdEq(final long detailId) {
