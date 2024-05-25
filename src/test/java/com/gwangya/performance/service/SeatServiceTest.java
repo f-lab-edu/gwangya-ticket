@@ -22,13 +22,14 @@ import com.gwangya.performance.domain.Seat;
 import com.gwangya.performance.dto.OccupancyInfoCondition;
 import com.gwangya.performance.dto.SeatDto;
 import com.gwangya.performance.dto.SeatOccupancyInfo;
-import com.gwangya.performance.repository.InMemoryHazelcastInstance;
 import com.gwangya.performance.repository.InMemoryPerformanceRepository;
 import com.gwangya.performance.repository.InMemorySeatRepository;
 import com.gwangya.purchase.domain.LockInfo;
 import com.gwangya.user.domain.User;
 import com.gwangya.user.repository.InMemoryUserRepository;
+import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.map.IMap;
+import com.hazelcast.test.TestHazelcastInstanceFactory;
 
 class SeatServiceTest {
 
@@ -38,7 +39,7 @@ class SeatServiceTest {
 
 	InMemoryUserRepository userRepository;
 
-	InMemoryHazelcastInstance hazelcastInstance;
+	HazelcastInstance hazelcastInstance;
 
 	SeatService seatService;
 
@@ -54,10 +55,11 @@ class SeatServiceTest {
 
 	@BeforeEach
 	void setUp() {
+		TestHazelcastInstanceFactory factory = new TestHazelcastInstanceFactory(2);
 		performanceRepository = new InMemoryPerformanceRepository();
 		seatRepository = new InMemorySeatRepository();
 		userRepository = new InMemoryUserRepository();
-		hazelcastInstance = new InMemoryHazelcastInstance();
+		hazelcastInstance = factory.newHazelcastInstance();
 		seatService = new SeatService(seatRepository, new HazelcastLockService(hazelcastInstance));
 
 		performance = performanceRepository.save(createPerformance(1L));
@@ -68,7 +70,7 @@ class SeatServiceTest {
 		performance.getPerformanceDetails().add(performanceDetail);
 		seat = seatRepository.save(createSeat(1L, performanceDetail));
 		user = userRepository.save(createUser(1L));
-		occupiedSeats = hazelcastInstance.getMap("occupiedSeats");
+		occupiedSeats = hazelcastInstance.getMap("seatSession");
 	}
 
 	@DisplayName("공연 상세 식별자로 잔여석을 조회할 수 있다.")
