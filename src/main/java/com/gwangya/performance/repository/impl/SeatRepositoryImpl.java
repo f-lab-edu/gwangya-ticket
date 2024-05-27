@@ -53,13 +53,13 @@ public class SeatRepositoryImpl implements SeatRepository {
 
 	@Override
 	public long countAllByPerformanceDetailId(long performanceDetailId) {
-		return jpaQueryFactory.selectFrom(seat)
+		return jpaQueryFactory.select(seat.count())
+			.from(seat)
 			.join(seat.performanceDetail, performanceDetail)
 			.where(
 				performanceDetailIdEq(performanceDetailId)
 			)
-			.fetch()
-			.size();
+			.fetchOne();
 	}
 
 	private BooleanExpression performanceDetailIdEq(final long detailId) {
