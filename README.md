@@ -7,15 +7,15 @@
 - 요구 사항 기반 테스트 코드를 작성하여 정상 동작을 보장하는 안정적인 애플리케이션을 개발하고자 하였습니다.
 
 # 프로젝트 기술 스택
-- Java 17
-- Spring Boot 3.1.5
-- MySQL 8.0.33
-- Hazelcast 5.3.6
-- JPA(Hibernate) 6.2.13
-- Spring Data JPA 3.1.5
-- QueryDSL 5.0.0
-- Spring Security 3.1.5
-- JUnit 5.9.3
+- ![Static Badge](https://img.shields.io/badge/Java-17-007396)
+- ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.1.5-6DB33F?logo=spring%20boot&logoColor=6DB33F)
+- ![MySQL](https://img.shields.io/badge/MySQL-8.0.33-4479A1?logo=mysql&logoColor=4479A1)
+- ![Hazelcast](https://img.shields.io/badge/Hazelcast-5.3.6-b6ff00%3Flogo%3DHazelcast%26logoColor%3Db6ff00)
+- ![Hibernate](https://img.shields.io/badge/JPA(Hibernate)-6.2.13-59666C?&logo=Hibernate&logoColor=white)
+- ![Spring Data JPA](https://img.shields.io/badge/Spring%20Data%20JPA-3.1.5-6DB33F?logo=spring%20boot&logoColor=6DB33F)
+- ![QueryDSL](https://img.shields.io/badge/QueryDSL-5.0.0-0089CF?&logo=Querydsl&logoColor=0089CF)
+- ![Spring Security](https://img.shields.io/badge/Spring%20Security-3.1.5-6DB33F?style=flat&logo=Spring%20Security&logoColor=6DB33F)
+- ![JUnit](https://img.shields.io/badge/JUnit-5.9.3-25A162?logo=junit&logoColor=white)
 
 # 서비스 아키텍처
 ![아키텍처 drawio](https://github.com/f-lab-edu/gwangya-ticket/assets/43931448/3e853214-6ddb-483a-a945-e2ede88e2f42)
