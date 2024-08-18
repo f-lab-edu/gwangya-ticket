@@ -22,7 +22,8 @@
 - ![JUnit](https://img.shields.io/badge/JUnit-5.9.3-25A162?logo=junit&logoColor=white)
 
 # 서비스 아키텍처
-![아키텍처 drawio](https://github.com/f-lab-edu/gwangya-ticket/assets/43931448/3e853214-6ddb-483a-a945-e2ede88e2f42)
+![Blank document - Page 1 (1)](https://github.com/user-attachments/assets/d03bde0d-1f96-44ab-b62f-7fd2d2457ec9)
+
 
 # 좌석 선택 Flow
 ![좌석선택](https://github.com/user-attachments/assets/08cc2f28-8b8e-4884-a2c2-fbecfe7d771d)
@@ -32,6 +33,12 @@
 
 # 좌석 선택 동시성 이슈
 [Hazelcast 분산 락으로 동시성 제어하기](https://velog.io/@lshlovejys/%ED%8B%B0%EC%BC%93-%EC%98%88%EB%A7%A4-%EB%B6%84%EC%82%B0-%EB%9D%BD%EC%9C%BC%EB%A1%9C-%EB%8F%99%EC%8B%9C%EC%84%B1-%EC%A0%9C%EC%96%B4%ED%95%98%EA%B8%B0)
+### ✔️ 문제 
+다중 서버 환경에서 동일한 좌석을 2명 이상의 유저가 선택하는 동시성 이슈 발생
+### ✔️ 해결 및 성과
+Hazelcast의 분산 락을 이용하여 좌석 번호(PK)에 잠금을 걸어 좌석 선택 정보를 보장할 수 있었습니다. <br>
+AP를 제공하는 Hazelcast Map 저장소에 좌석과 선택한 유저 정보를 저장함으로써 데이터베이스로의 부하를 최소화하였습니다. 또한 데이터 삭제 시점에 이벤트를 통한 락 해제로 잠금 간의 동시성 문제를 방지할 수 있엇습니다.
+<br><br>
 
 # Commit Convention
 - feat : 새로운 기능 추가
