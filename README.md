@@ -38,6 +38,19 @@
 ### ✔️ 해결 및 성과
 Hazelcast의 분산 락을 이용하여 좌석 번호(PK)에 잠금을 걸어 좌석 선택 정보를 보장할 수 있었습니다. <br>
 AP를 제공하는 Hazelcast Map 저장소에 좌석과 선택한 유저 정보를 저장함으로써 데이터베이스로의 부하를 최소화하였습니다. 또한 데이터 삭제 시점에 이벤트를 통한 락 해제로 잠금 간의 동시성 문제를 방지할 수 있었습니다.
+#### ➡️ 부하테스트 
+Hazelcast 단일 서버 2Core, 8GB 사양으로 오류없이 **최대 418 TP**S / 전체 좌석에 대한 **실질 처리율 약 88%**를 확보할 수 있었습니다. <br>
+<p align="left">
+  <img width="80%" alt="image" src="https://github.com/user-attachments/assets/93d04903-ebec-4bc9-8ef8-d03b9df3c3ef">
+  <img width="80%" alt="image" src="https://github.com/user-attachments/assets/f0118641-323f-4b76-b8e8-30f01ee86aa0">
+</p>
+<br>
+MySQL 서버의 CPU 사용률 25% 미만, 메모리 사용률 17% 미만으로 RDB에 대한 부하를 최소화할 수 있었습니다. 
+<br><br>
+<p align="left">
+  <img width="80%" alt="image" src="https://github.com/user-attachments/assets/9c0cf956-8619-4920-9fc6-fd0a098b3548">
+  <img width="80%" alt="image" src="https://github.com/user-attachments/assets/d5c8b02a-0ca1-4682-8cf6-dccd14ca3780">
+</p>
 <br><br>
 
 # Commit Convention
